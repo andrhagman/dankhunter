@@ -62,7 +62,7 @@ function confidenceLabel(confidence: Confidence) {
 
 function App() {
   const [query, setQuery] = React.useState("");
-  const [kind, setKind] = React.useState("All");
+  const [kind, setKind] = React.useState("Upcoming");
 
   const sortedEvents = [...timelineEvents].sort(
     (a, b) => normalizedDate(a.date).getTime() - normalizedDate(b.date).getTime()

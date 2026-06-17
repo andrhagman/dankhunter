@@ -1,4 +1,5 @@
 :root {
+  --content-width: 1180px;
   color-scheme: dark;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -18,8 +19,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(135deg, rgba(192, 74, 44, 0.18), transparent 34%),
-    radial-gradient(circle at top right, rgba(90, 142, 219, 0.2), transparent 35%),
+    linear-gradient(135deg, rgba(192, 74, 44, 0.14), transparent 32%),
+    radial-gradient(circle at top right, rgba(90, 142, 219, 0.16), transparent 34%),
     #101210;
 }
 
@@ -34,9 +35,9 @@ input {
 }
 
 main {
-  width: min(1440px, 100%);
+  width: 100%;
   margin: 0 auto;
-  padding: 22px;
+  padding: 18px;
 }
 
 .topbar {
@@ -44,7 +45,8 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 22px;
+  width: min(var(--content-width), 100%);
+  margin: 0 auto 14px;
 }
 
 .brand {
@@ -55,8 +57,8 @@ main {
 
 .brand-mark {
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   place-items: center;
   border: 1px solid rgba(244, 240, 232, 0.2);
   border-radius: 8px;
@@ -66,7 +68,7 @@ main {
 
 .brand p {
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
 }
 
@@ -83,10 +85,10 @@ main {
 .search {
   display: flex;
   align-items: center;
-  width: min(460px, 100%);
+  width: min(420px, 100%);
   gap: 10px;
   padding: 0 14px;
-  min-height: 46px;
+  min-height: 42px;
   border: 1px solid rgba(244, 240, 232, 0.14);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);
@@ -106,33 +108,35 @@ main {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.75fr);
-  gap: 20px;
-  align-items: end;
-  min-height: 290px;
-  padding: 34px;
-  margin-bottom: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 0.9fr);
+  width: min(var(--content-width), 100%);
+  gap: 16px;
+  align-items: center;
+  min-height: 96px;
+  padding: 14px 16px;
+  margin: 0 auto 10px;
   border: 1px solid rgba(244, 240, 232, 0.12);
   border-radius: 8px;
   background:
-    linear-gradient(rgba(16, 18, 16, 0.24), rgba(16, 18, 16, 0.88)),
+    linear-gradient(90deg, rgba(16, 18, 16, 0.92), rgba(16, 18, 16, 0.72)),
     image-set(
       url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1800&q=80")
         1x
     )
       center / cover;
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 
 .hero-copy {
-  max-width: 780px;
+  display: block;
+  max-width: none;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: #f0b667;
   font-size: 13px;
   font-weight: 800;
@@ -148,30 +152,38 @@ p {
 }
 
 h1 {
-  max-width: 820px;
-  margin-bottom: 12px;
-  font-size: clamp(42px, 6vw, 82px);
-  line-height: 0.92;
+  max-width: 680px;
+  margin-bottom: 5px;
+  font-size: clamp(23px, 2.3vw, 30px);
+  line-height: 1.05;
   letter-spacing: 0;
 }
 
 .hero-copy > p:last-child {
-  max-width: 620px;
+  max-width: 680px;
   margin-bottom: 0;
   color: #e2ddd3;
-  font-size: 18px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.hero-copy .eyebrow {
+  margin: 0 0 6px;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .metric {
-  min-height: 102px;
-  padding: 16px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-height: 68px;
+  padding: 11px;
   border: 1px solid rgba(244, 240, 232, 0.14);
   border-radius: 8px;
   background: rgba(7, 9, 8, 0.62);
@@ -180,7 +192,7 @@ h1 {
 
 .metric span {
   display: inline-flex;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   color: #f0b667;
 }
 
@@ -190,7 +202,7 @@ h1 {
 
 .metric strong {
   display: block;
-  font-size: 28px;
+  font-size: 21px;
   line-height: 1;
 }
 
@@ -202,10 +214,12 @@ h1 {
 .controls {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   overflow-x: auto;
   padding: 10px;
-  margin-bottom: 18px;
+  margin: 0 auto 16px;
+  width: min(var(--content-width), 100%);
   border: 1px solid rgba(244, 240, 232, 0.11);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
@@ -241,8 +255,10 @@ h1 {
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.65fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(400px, 0.9fr);
   gap: 18px;
+  width: min(var(--content-width), 100%);
+  margin: 0 auto;
 }
 
 .panel {
@@ -253,19 +269,20 @@ h1 {
 
 .timeline-panel,
 .releases-panel {
-  padding: 20px;
+  padding: 18px;
 }
 
 .section-heading {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
+  min-height: 50px;
 }
 
 .section-heading h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .timeline {
@@ -319,7 +336,7 @@ h1 {
 }
 
 .event-body {
-  padding: 17px;
+  padding: 15px;
   border: 1px solid rgba(244, 240, 232, 0.11);
   border-left: 4px solid var(--accent);
   border-radius: 8px;
@@ -367,8 +384,8 @@ h1 {
 }
 
 .event-body h3 {
-  margin: 12px 0 8px;
-  font-size: 22px;
+  margin: 10px 0 7px;
+  font-size: 20px;
 }
 
 .event-body p {
@@ -394,8 +411,8 @@ h1 {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
-  min-height: 78px;
-  padding: 14px;
+  min-height: 72px;
+  padding: 13px;
   border: 1px solid rgba(244, 240, 232, 0.1);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.04);
@@ -439,7 +456,8 @@ h1 {
   }
 
   .hero {
-    padding: 24px;
+    padding: 14px;
+    grid-template-columns: 1fr;
   }
 
   .stats-grid {
@@ -448,19 +466,55 @@ h1 {
 }
 
 @media (max-width: 680px) {
+  main {
+    padding: 12px;
+  }
+
+  .topbar {
+    margin-bottom: 10px;
+  }
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+
   .hero {
-    min-height: 520px;
-    align-content: end;
+    min-height: 0;
+    align-content: stretch;
+    gap: 14px;
   }
 
   h1 {
-    font-size: 44px;
+    font-size: 26px;
   }
 
   .stats-grid,
   .release-row,
   .timeline-card {
     grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .metric {
+    display: block;
+    min-height: 78px;
+    padding: 10px;
+  }
+
+  .metric span {
+    margin-bottom: 7px;
+  }
+
+  .metric strong {
+    font-size: 20px;
+  }
+
+  .controls {
+    justify-content: flex-start;
   }
 
   .timeline::before,
