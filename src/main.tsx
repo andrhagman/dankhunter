@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { AnimatePresence, motion, useReducedMotion, type Transition, type Variants } from "motion/react";
 import {
   CalendarDays,
   CircleDot,
@@ -38,6 +39,19 @@ const monthFormatter = new Intl.DateTimeFormat("en", {
 
 type ViewMode = "seasons" | "releases";
 
+const panelMotion: Variants = {
+  hidden: { opacity: 0, y: 10, filter: "blur(3px)" },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  exit: { opacity: 0, y: -8, filter: "blur(3px)" }
+};
+
+const itemMotion: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const smoothTransition: Transition = { duration: 0.22, ease: "easeOut" };
+
 function normalizedDate(date: string) {
   return new Date(date);
 }
@@ -67,6 +81,7 @@ function confidenceLabel(confidence: Confidence) {
 }
 
 function App() {
+  const reduceMotion = useReducedMotion();
   const [query, setQuery] = React.useState("");
   const [kind, setKind] = React.useState("Upcoming");
   const [mode, setMode] = React.useState<ViewMode>("seasons");
@@ -119,6 +134,23 @@ function App() {
           next: nextRelease ? prettyDate(nextRelease.date, nextRelease.confidence) : "None",
           nextLabel: "Next release"
         };
+  const motionProps = reduceMotion
+    ? {}
+    : {
+        initial: "hidden",
+        animate: "visible",
+        exit: "exit",
+        variants: panelMotion,
+        transition: smoothTransition
+      };
+  const itemMotionProps = reduceMotion
+    ? {}
+    : {
+        initial: "hidden",
+        animate: "visible",
+        variants: itemMotion,
+        transition: smoothTransition
+      };
 
   React.useEffect(() => {
     localStorage.setItem(preferenceStorageKey, JSON.stringify(selectedGames));
@@ -157,13 +189,17 @@ function App() {
         </div>
       </section>
 
-      <section className="hero">
+      <motion.section className="hero" layout>
         <div className="hero-primary">
           <div className="hero-copy">
             <p className="eyebrow">
               <Flame size={16} /> Dankhunter
             </p>
-            <h1>{mode === "seasons" ? "Season calendar" : "Game releases"}</h1>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.h1 key={mode} {...motionProps}>
+                {mode === "seasons" ? "Calendar" : "Game releases"}
+              </motion.h1>
+            </AnimatePresence>
           </div>
 
           <section className="mode-switch" aria-label="Tracker mode">
@@ -175,7 +211,7 @@ function App() {
             >
               <CalendarDays size={17} />
               <span>
-                Season calendar
+                Calendar
                 <small>Live season dates</small>
               </span>
             </button>
@@ -195,25 +231,29 @@ function App() {
         </div>
 
         <div className="stats-grid" aria-label="Tracker stats">
-          <Metric icon={<CalendarDays />} label={activeStats.label} value={activeStats.events} />
-          <Metric icon={<TimerReset />} label={activeStats.upcomingLabel} value={activeStats.upcoming} />
-          <Metric
-            icon={<CircleDot />}
-            label={activeStats.nextLabel}
-            value={activeStats.next}
-          />
+          <AnimatePresence mode="popLayout" initial={false}>
+            <Metric key={activeStats.label} icon={<CalendarDays />} label={activeStats.label} value={activeStats.events} />
+            <Metric key={activeStats.upcomingLabel} icon={<TimerReset />} label={activeStats.upcomingLabel} value={activeStats.upcoming} />
+            <Metric
+              key={activeStats.nextLabel}
+              icon={<CircleDot />}
+              label={activeStats.nextLabel}
+              value={activeStats.next}
+            />
+          </AnimatePresence>
         </div>
-      </section>
+      </motion.section>
 
       <section className="layout">
+        <AnimatePresence mode="wait" initial={false}>
         {mode === "seasons" ? (
-          <div className="panel timeline-panel">
+          <motion.div className="panel timeline-panel" key="calendar" {...motionProps}>
             <div className="section-heading">
               <div>
                 <p className="eyebrow">
                   <CalendarDays size={16} /> Priority watchlist
                 </p>
-                <h2>Season calendar</h2>
+                <h2>Calendar</h2>
               </div>
               <div className="panel-summary" aria-label="Calendar summary">
                 <span>{filteredEvents.length} showing</span>
@@ -221,8 +261,8 @@ function App() {
               </div>
             </div>
 
-            <section className="calendar-toolbar" aria-label="Season calendar controls">
-              <div className="toolbar-group" aria-label="Season calendar filters">
+            <section className="calendar-toolbar" aria-label="Calendar controls">
+              <div className="toolbar-group" aria-label="Calendar filters">
                 <span className="toolbar-label">Show</span>
                 {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
                   <button
@@ -256,8 +296,15 @@ function App() {
               </div>
             </section>
 
+            <AnimatePresence initial={false}>
             {isPreferencesOpen ? (
-              <div className="preferences-popover" role="dialog" aria-label="Season calendar preferences">
+              <motion.div
+                className="preferences-popover"
+                role="dialog"
+                aria-label="Calendar preferences"
+                key="preferences"
+                {...motionProps}
+              >
                 <div className="preferences-header">
                   <div>
                     <strong>My calendar</strong>
@@ -295,24 +342,27 @@ function App() {
                     Reset
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ) : null}
+            </AnimatePresence>
 
             <div className="timeline">
               {filteredEvents.length > 0 ? (
-                filteredEvents.map((event) => <TimelineCard key={event.id} event={event} />)
+                filteredEvents.map((event, index) => (
+                  <TimelineCard key={event.id} event={event} index={index} reduceMotion={Boolean(reduceMotion)} />
+                ))
               ) : (
-                <div className="empty-state">
+                <motion.div className="empty-state" {...itemMotionProps}>
                   <strong>No matching seasons</strong>
                   <span>Adjust your calendar preferences, search, or filter.</span>
-                </div>
+                </motion.div>
               )}
             </div>
-          </div>
+          </motion.div>
         ) : null}
 
         {mode === "releases" ? (
-          <aside className="panel releases-panel">
+          <motion.aside className="panel releases-panel" key="releases" {...motionProps}>
             <div className="section-heading">
               <div>
                 <p className="eyebrow">
@@ -335,24 +385,37 @@ function App() {
 
             <div className="release-list">
               {filteredReleases.length > 0 ? (
-                filteredReleases.map((release) => (
-                  <a className="release-row" href={release.sourceUrl} key={release.id}>
+                filteredReleases.map((release, index) => (
+                  <motion.a
+                    className="release-row"
+                    href={release.sourceUrl}
+                    key={release.id}
+                    {...(reduceMotion
+                      ? {}
+                      : {
+                          initial: "hidden",
+                          animate: "visible",
+                          variants: itemMotion,
+                          transition: { ...smoothTransition, delay: Math.min(index * 0.018, 0.18) }
+                        })}
+                  >
                     <div>
                       <strong>{release.title}</strong>
                       <span>{release.genre}</span>
                     </div>
                     <time>{prettyDate(release.date, release.confidence)}</time>
-                  </a>
+                  </motion.a>
                 ))
               ) : (
-                <div className="empty-state">
+                <motion.div className="empty-state" {...itemMotionProps}>
                   <strong>No matching releases</strong>
                   <span>Try another game title, genre, or platform.</span>
-                </div>
+                </motion.div>
               )}
             </div>
-          </aside>
+          </motion.aside>
         ) : null}
+        </AnimatePresence>
       </section>
     </main>
   );
@@ -375,13 +438,20 @@ function readStoredGames(allGames: string[]) {
 
 function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
   return (
-    <div className="metric">
+    <motion.div
+      animate="visible"
+      className="metric"
+      initial="hidden"
+      layout
+      transition={smoothTransition}
+      variants={itemMotion}
+    >
       <span>{icon}</span>
       <div>
         <strong>{value}</strong>
         <p>{label}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -407,12 +477,32 @@ function SearchField({
   );
 }
 
-function TimelineCard({ event }: { event: TimelineEvent }) {
+function TimelineCard({
+  event,
+  index,
+  reduceMotion
+}: {
+  event: TimelineEvent;
+  index: number;
+  reduceMotion: boolean;
+}) {
   const remaining = daysUntil(event.date);
   const isPast = remaining < 0;
 
   return (
-    <article className="timeline-card" style={{ "--accent": event.accent } as React.CSSProperties}>
+    <motion.article
+      className="timeline-card"
+      layout
+      style={{ "--accent": event.accent } as React.CSSProperties}
+      {...(reduceMotion
+        ? {}
+        : {
+            initial: "hidden",
+            animate: "visible",
+            variants: itemMotion,
+            transition: { ...smoothTransition, delay: Math.min(index * 0.025, 0.2) }
+          })}
+    >
       <div className="date-block">
         <time>{prettyDate(event.date, event.confidence)}</time>
         <span>{isPast ? "Live now" : `${remaining} days`}</span>
@@ -435,7 +525,7 @@ function TimelineCard({ event }: { event: TimelineEvent }) {
           </a>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
