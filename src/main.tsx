@@ -4,7 +4,6 @@ import {
   CalendarDays,
   CircleDot,
   ExternalLink,
-  Filter,
   Flame,
   Gamepad2,
   Search,
@@ -175,7 +174,10 @@ function App() {
               type="button"
             >
               <CalendarDays size={17} />
-              Season calendar
+              <span>
+                Season calendar
+                <small>Seasons, wipes, expansions</small>
+              </span>
             </button>
             <button
               aria-pressed={mode === "releases"}
@@ -184,7 +186,10 @@ function App() {
               type="button"
             >
               <Gamepad2 size={17} />
-              Game releases
+              <span>
+                Game releases
+                <small>New PC launches</small>
+              </span>
             </button>
           </section>
         </div>
@@ -210,41 +215,45 @@ function App() {
                 </p>
                 <h2>Season calendar</h2>
               </div>
-              <div className="calendar-actions">
-                <span>{filteredEvents.length} visible</span>
-                <SearchField
-                  onChange={setQuery}
-                  placeholder="Search seasons, games, expansions"
-                  value={query}
-                />
-                <button
-                  aria-expanded={isPreferencesOpen}
-                  aria-label="Season calendar preferences"
-                  className="icon-button"
-                  onClick={() => setIsPreferencesOpen((open) => !open)}
-                  title="Season calendar preferences"
-                  type="button"
-                >
-                  <Settings2 size={18} />
-                </button>
+              <div className="panel-summary" aria-label="Calendar summary">
+                <span>{filteredEvents.length} showing</span>
+                <span>{selectedGameCount} games</span>
               </div>
             </div>
 
-            <section className="controls" aria-label="Season calendar filters">
-              <div className="control-label">
-                <Filter size={17} />
-                Filter
+            <section className="calendar-toolbar" aria-label="Season calendar controls">
+              <div className="toolbar-group" aria-label="Season calendar filters">
+                <span className="toolbar-label">Show</span>
+                {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
+                  <button
+                    className={kind === filter ? "active" : ""}
+                    key={filter}
+                    onClick={() => setKind(filter)}
+                    type="button"
+                  >
+                    {filter}
+                  </button>
+                ))}
               </div>
-              {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
+
+              <div className="toolbar-actions">
                 <button
-                  className={kind === filter ? "active" : ""}
-                  key={filter}
-                  onClick={() => setKind(filter)}
+                  aria-expanded={isPreferencesOpen}
+                  aria-label="Tracked games"
+                  className="preference-button"
+                  onClick={() => setIsPreferencesOpen((open) => !open)}
+                  title="Tracked games"
                   type="button"
                 >
-                  {filter}
+                  <Settings2 size={17} />
+                  <span>Games</span>
                 </button>
-              ))}
+                <SearchField
+                  onChange={setQuery}
+                  placeholder="Search"
+                  value={query}
+                />
+              </div>
             </section>
 
             {isPreferencesOpen ? (
@@ -312,7 +321,10 @@ function App() {
                 <h2>Game releases</h2>
               </div>
               <div className="release-actions">
-                <span>Updated {releasesUpdatedAt}</span>
+                <div className="panel-summary" aria-label="Release summary">
+                  <span>{filteredReleases.length} showing</span>
+                  <span>Updated {releasesUpdatedAt}</span>
+                </div>
                 <SearchField
                   onChange={setQuery}
                   placeholder="Search game releases"
