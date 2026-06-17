@@ -11,7 +11,9 @@ import {
   ShieldCheck,
   Sparkles,
   Swords,
-  TimerReset
+  TimerReset,
+  Settings2,
+  X
 } from "lucide-react";
 import { type Confidence, type Release, type TimelineEvent } from "./data";
 import releaseData from "./data/pc-releases.json";
@@ -20,6 +22,7 @@ import "./styles.css";
 
 const pcReleases = releaseData.releases as Release[];
 const timelineEvents = seasonData.events as TimelineEvent[];
+const preferenceStorageKey = "dankhunter-season-games";
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -65,19 +68,51 @@ function confidenceLabel(confidence: Confidence) {
 function App() {
   const [query, setQuery] = React.useState("");
   const [kind, setKind] = React.useState("Upcoming");
+  const [isPreferencesOpen, setIsPreferencesOpen] = React.useState(false);
+
+  const seasonGames = React.useMemo(
+    () => [...new Set(timelineEvents.map((event) => event.game))].sort((a, b) => a.localeCompare(b)),
+    []
+  );
+  const [selectedGames, setSelectedGames] = React.useState<string[]>(() => readStoredGames(seasonGames));
 
   const sortedEvents = [...timelineEvents].sort(
     (a, b) => normalizedDate(a.date).getTime() - normalizedDate(b.date).getTime()
   );
+  const selectedEvents = sortedEvents.filter((event) => selectedGames.includes(event.game));
 
-  const filteredEvents = sortedEvents.filter((event) => {
+  const filteredEvents = selectedEvents.filter((event) => {
     const matchesKind = kind === "All" || event.type === kind || event.status === kind;
     const haystack = `${event.game} ${event.title} ${event.note}`.toLowerCase();
     return matchesKind && haystack.includes(query.toLowerCase());
   });
 
-  const upcomingCount = sortedEvents.filter((event) => event.status === "Upcoming").length;
-  const nextEvent = sortedEvents.find((event) => event.status === "Upcoming") ?? sortedEvents[0];
+  const upcomingCount = selectedEvents.filter((event) => event.status === "Upcoming").length;
+  const nextEvent = selectedEvents.find((event) => event.status === "Upcoming") ?? selectedEvents[0];
+  const selectedGameCount = selectedGames.length;
+
+  React.useEffect(() => {
+    localStorage.setItem(preferenceStorageKey, JSON.stringify(selectedGames));
+  }, [selectedGames]);
+
+  function toggleGame(game: string) {
+    setSelectedGames((current) => {
+      if (current.includes(game)) {
+        return current.filter((candidate) => candidate !== game);
+      }
+
+      return [...current, game].sort((a, b) => a.localeCompare(b));
+    });
+  }
+
+  function selectAllGames() {
+    setSelectedGames(seasonGames);
+  }
+
+  function resetDefaultGames() {
+    localStorage.removeItem(preferenceStorageKey);
+    setSelectedGames(seasonGames);
+  }
 
   return (
     <main>
@@ -115,12 +150,12 @@ function App() {
         </div>
 
         <div className="stats-grid" aria-label="Tracker stats">
-          <Metric icon={<CalendarDays />} label="Tracked events" value={timelineEvents.length} />
+          <Metric icon={<CalendarDays />} label="Tracked events" value={selectedEvents.length} />
           <Metric icon={<TimerReset />} label="Upcoming" value={upcomingCount} />
           <Metric
             icon={<CircleDot />}
             label="Next window"
-            value={prettyDate(nextEvent.date, nextEvent.confidence)}
+            value={nextEvent ? prettyDate(nextEvent.date, nextEvent.confidence) : "None"}
           />
         </div>
       </section>
@@ -151,13 +186,72 @@ function App() {
               </p>
               <h2>Season calendar</h2>
             </div>
-            <span>{filteredEvents.length} visible</span>
+            <div className="calendar-actions">
+              <span>{filteredEvents.length} visible</span>
+              <button
+                aria-expanded={isPreferencesOpen}
+                aria-label="Season calendar preferences"
+                className="icon-button"
+                onClick={() => setIsPreferencesOpen((open) => !open)}
+                title="Season calendar preferences"
+                type="button"
+              >
+                <Settings2 size={18} />
+              </button>
+            </div>
           </div>
 
+          {isPreferencesOpen ? (
+            <div className="preferences-popover" role="dialog" aria-label="Season calendar preferences">
+              <div className="preferences-header">
+                <div>
+                  <strong>My calendar</strong>
+                  <span>
+                    {selectedGameCount} of {seasonGames.length} games selected
+                  </span>
+                </div>
+                <button
+                  aria-label="Close preferences"
+                  className="icon-button"
+                  onClick={() => setIsPreferencesOpen(false)}
+                  title="Close"
+                  type="button"
+                >
+                  <X size={17} />
+                </button>
+              </div>
+              <div className="game-toggle-list">
+                {seasonGames.map((game) => (
+                  <label className="game-toggle" key={game}>
+                    <input
+                      checked={selectedGames.includes(game)}
+                      onChange={() => toggleGame(game)}
+                      type="checkbox"
+                    />
+                    <span>{game}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="preferences-footer">
+                <button onClick={selectAllGames} type="button">
+                  Select all
+                </button>
+                <button onClick={resetDefaultGames} type="button">
+                  Reset
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           <div className="timeline">
-            {filteredEvents.map((event) => (
-              <TimelineCard key={event.id} event={event} />
-            ))}
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event) => <TimelineCard key={event.id} event={event} />)
+            ) : (
+              <div className="empty-state">
+                <strong>No matching seasons</strong>
+                <span>Adjust your calendar preferences, search, or filter.</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -187,6 +281,21 @@ function App() {
       </section>
     </main>
   );
+}
+
+function readStoredGames(allGames: string[]) {
+  try {
+    const stored = JSON.parse(localStorage.getItem(preferenceStorageKey) ?? "null");
+
+    if (Array.isArray(stored)) {
+      const validGames = stored.filter((game): game is string => allGames.includes(game));
+      return validGames;
+    }
+  } catch {
+    return allGames;
+  }
+
+  return allGames;
 }
 
 function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {

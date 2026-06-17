@@ -117,13 +117,7 @@ main {
   margin: 0 auto 10px;
   border: 1px solid rgba(244, 240, 232, 0.12);
   border-radius: 8px;
-  background:
-    linear-gradient(90deg, rgba(16, 18, 16, 0.92), rgba(16, 18, 16, 0.72)),
-    image-set(
-      url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1800&q=80")
-        1x
-    )
-      center / cover;
+  background: linear-gradient(90deg, rgba(29, 32, 28, 0.94), rgba(28, 34, 38, 0.88));
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 
@@ -274,6 +268,7 @@ h1 {
 
 .section-heading {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 14px;
@@ -285,10 +280,126 @@ h1 {
   font-size: 22px;
 }
 
+.calendar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.icon-button {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(244, 240, 232, 0.13);
+  border-radius: 8px;
+  color: #f4f0e8;
+  background: rgba(255, 255, 255, 0.055);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  border-color: rgba(240, 182, 103, 0.48);
+  color: #f0b667;
+  background: rgba(240, 182, 103, 0.1);
+}
+
+.preferences-popover {
+  margin: -2px 0 16px;
+  padding: 14px;
+  border: 1px solid rgba(244, 240, 232, 0.13);
+  border-radius: 8px;
+  background: rgba(10, 12, 10, 0.92);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.preferences-header,
+.preferences-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.preferences-header strong,
+.preferences-header span {
+  display: block;
+}
+
+.preferences-header span {
+  margin-top: 3px;
+  color: #b9b4a9;
+  font-size: 13px;
+}
+
+.game-toggle-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.game-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid rgba(244, 240, 232, 0.09);
+  border-radius: 8px;
+  color: #ddd7ca;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+}
+
+.game-toggle input {
+  accent-color: #f0b667;
+}
+
+.game-toggle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preferences-footer {
+  justify-content: flex-end;
+}
+
+.preferences-footer button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(244, 240, 232, 0.13);
+  border-radius: 8px;
+  color: #ddd7ca;
+  background: rgba(255, 255, 255, 0.045);
+  cursor: pointer;
+}
+
+.preferences-footer button:hover {
+  color: #171411;
+  background: #f0b667;
+}
+
 .timeline {
   position: relative;
   display: grid;
   gap: 14px;
+}
+
+.empty-state {
+  display: grid;
+  gap: 5px;
+  padding: 22px;
+  border: 1px dashed rgba(244, 240, 232, 0.18);
+  border-radius: 8px;
+  color: #b9b4a9;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.empty-state strong {
+  color: #f4f0e8;
 }
 
 .timeline::before {
@@ -535,6 +646,22 @@ h1 {
   .event-footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .section-heading,
+  .preferences-header,
+  .preferences-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .calendar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .game-toggle-list {
+    grid-template-columns: 1fr;
   }
 
   .release-row time {
