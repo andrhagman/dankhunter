@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-17T12:29:22.032Z",
+  "updatedAt": "2026-06-17T19:13:52.462Z",
   "sourceName": "Curated official and community trackers",
   "sourceUrl": "https://github.com/andrhagman/dankhunter",
   "events": [
@@ -33,13 +33,13 @@
       "id": "pd2-season-13",
       "game": "Project Diablo 2",
       "title": "Season 13 - Betrayal",
-      "date": "2026-04-24T17:00:00Z",
+      "date": "2026-04-24T17:00:00.000Z",
       "type": "Season",
       "confidence": "confirmed",
       "status": "Live",
-      "note": "Season 13 began April 24 at 10am PST.",
-      "sourceName": "Project Diablo 2",
-      "sourceUrl": "https://www.projectdiablo2.com/",
+      "note": "Season launch is April 24th about 10am PDT.",
+      "sourceName": "Project Diablo 2 News",
+      "sourceUrl": "https://www.reddit.com/r/ProjectDiablo2/comments/1s6akgg/project_diablo_2_season_13_betrayal_begins_april/",
       "accent": "#b95f3b"
     },
     {
@@ -110,14 +110,14 @@
     {
       "id": "poe-329",
       "game": "Path of Exile",
-      "title": "3.29 League",
-      "date": "2026-07-24T20:00:00Z",
+      "title": "Path of Exile 3.29 Expansion Timeline",
+      "date": "2026-07-24T20:00:00.000Z",
       "type": "Season",
       "confidence": "confirmed",
       "status": "Upcoming",
-      "note": "Next Path of Exile league is tracked with a confirmed July 24 start.",
-      "sourceName": "aRPG Timeline",
-      "sourceUrl": "https://www.arpg-timeline.com/game/path-of-exile",
+      "note": "We’re in the fourth month of Path of Exile: Mirage, so it’s time to talk about the next big update for Path of Exile! The release date for 3.29 has been set in stone for quite s...",
+      "sourceName": "Steam News",
+      "sourceUrl": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1834602721197367",
       "accent": "#b8894f"
     },
     {
@@ -253,15 +253,30 @@
   ],
   "sources": [
     "https://www.pathofexile.com/news/rss",
-    "https://www.pathofexile.com/",
-    "https://forum.lastepoch.com/t/last-epoch-s-season-4-and-beyond-expansion-paradox-classes-and-roadmap/80152",
-    "https://diablo4.blizzard.com/en-us/season",
-    "https://www.projectdiablo2.com/",
-    "https://steamcommunity.com/games/269210/rss",
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=238960",
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=2694490",
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=2344520",
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=899770",
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=269210",
+    "https://raw.githubusercontent.com/Project-Diablo-2/news/main/reset.json",
+    "https://raw.githubusercontent.com/Project-Diablo-2/news/main/news.json",
+    "https://www.wowhead.com/news/rss/retail",
+    "https://www.wowhead.com/news/rss/classic",
     "https://www.escapefromtarkov.com/news",
+    "https://www.arpg-timeline.com/game/last-epoch",
+    "https://store.steampowered.com/news/app/269210/view/528748782770193280",
+    "https://www.reddit.com/r/ProjectDiablo2/comments/1s6akgg/project_diablo_2_season_13_betrayal_begins_april/",
+    "https://diablo4.blizzard.com/en-us/season",
+    "https://www.arpg-timeline.com/game/path-of-exile2",
     "https://worldofwarcraft.blizzard.com/en-us/news/24250385",
+    "https://www.wowhead.com/tbc/guide/the-burning-crusade-classic-anniversary-phase-release-roadmap",
+    "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1834602721197367",
+    "https://hero-siege-helper.vercel.app/seasons",
+    "https://forum.lastepoch.com/t/last-epoch-s-season-4-and-beyond-expansion-paradox-classes-and-roadmap/80152",
     "https://www.wowhead.com/news/world-of-warcraft-2026-midnight-roadmap-revealed-380135",
-    "https://www.wowhead.com/tbc/guide/the-burning-crusade-classic-anniversary-phase-release-roadmap"
+    "https://boosting-ground.com/wow-classic/news/tbc-anniversary-2026-roadmap",
+    "https://www.projectdiablo2.com/",
+    "https://worldofwarcraft.blizzard.com/en-us/news"
   ],
   "sourceHealth": {
     "https://www.pathofexile.com/news/rss": {
@@ -270,59 +285,65 @@
       "statusText": "OK",
       "checkedAt": "2026-06-17T12:27:00.789Z"
     },
-    "https://www.pathofexile.com/": {
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=238960": {
       "ok": true,
       "status": 200,
       "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:01.099Z"
+      "checkedAt": "2026-06-17T19:13:51.357Z"
     },
-    "https://forum.lastepoch.com/t/last-epoch-s-season-4-and-beyond-expansion-paradox-classes-and-roadmap/80152": {
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=2694490": {
       "ok": true,
       "status": 200,
       "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:01.911Z"
+      "checkedAt": "2026-06-17T19:13:51.397Z"
     },
-    "https://diablo4.blizzard.com/en-us/season": {
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=2344520": {
       "ok": true,
       "status": 200,
       "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:02.134Z"
+      "checkedAt": "2026-06-17T19:13:51.442Z"
     },
-    "https://www.projectdiablo2.com/": {
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=899770": {
       "ok": true,
       "status": 200,
       "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:02.352Z"
+      "checkedAt": "2026-06-17T19:13:51.483Z"
     },
-    "https://steamcommunity.com/games/269210/rss": {
+    "https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=269210": {
       "ok": true,
       "status": 200,
       "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:02.647Z"
+      "checkedAt": "2026-06-17T19:13:51.511Z"
+    },
+    "https://raw.githubusercontent.com/Project-Diablo-2/news/main/reset.json": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T19:04:39.145Z"
+    },
+    "https://raw.githubusercontent.com/Project-Diablo-2/news/main/news.json": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T19:04:39.294Z"
+    },
+    "https://www.wowhead.com/news/rss/retail": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T19:04:40.078Z"
+    },
+    "https://www.wowhead.com/news/rss/classic": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T19:04:40.901Z"
     },
     "https://www.escapefromtarkov.com/news": {
-      "ok": false,
-      "status": 403,
-      "statusText": "Forbidden",
-      "checkedAt": "2026-06-17T12:29:21.641Z"
-    },
-    "https://worldofwarcraft.blizzard.com/en-us/news/24250385": {
       "ok": true,
       "status": 200,
       "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:03.172Z"
-    },
-    "https://www.wowhead.com/news/world-of-warcraft-2026-midnight-roadmap-revealed-380135": {
-      "ok": true,
-      "status": 200,
-      "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:03.218Z"
-    },
-    "https://www.wowhead.com/tbc/guide/the-burning-crusade-classic-anniversary-phase-release-roadmap": {
-      "ok": true,
-      "status": 200,
-      "statusText": "OK",
-      "checkedAt": "2026-06-17T12:27:03.277Z"
+      "checkedAt": "2026-06-17T19:04:41.049Z"
     }
   }
 }

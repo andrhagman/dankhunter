@@ -1,8 +1,6 @@
 name: Update tracked game data
 
 on:
-  schedule:
-    - cron: "23 3 * * *"
   workflow_dispatch:
 
 permissions:

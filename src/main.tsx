@@ -14,13 +14,20 @@ import {
   Settings2,
   X
 } from "lucide-react";
-import { type Confidence, type Release, type TimelineEvent } from "./data";
+import {
+  type Confidence,
+  type ReleaseData,
+  type SeasonCalendarData,
+  type TimelineEvent
+} from "./data";
 import releaseData from "./data/pc-releases.json";
 import seasonData from "./data/season-calendar.json";
 import "./styles.css";
 
-const pcReleases = releaseData.releases as Release[];
-const timelineEvents = seasonData.events as TimelineEvent[];
+const pcReleaseData = releaseData as ReleaseData;
+const seasonCalendarData = seasonData as SeasonCalendarData;
+const pcReleases = pcReleaseData.releases;
+const timelineEvents = seasonCalendarData.events;
 const preferenceStorageKey = "dankhunter-season-games";
 const calendarFilters = ["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"];
 const brandIconUrl = `${import.meta.env.BASE_URL}dankhunter-icon.png`;
@@ -31,7 +38,7 @@ const formatter = new Intl.DateTimeFormat("en", {
   year: "numeric"
 });
 
-const releasesUpdatedAt = formatter.format(new Date(releaseData.updatedAt));
+const releasesUpdatedAt = formatter.format(new Date(pcReleaseData.updatedAt));
 
 const monthFormatter = new Intl.DateTimeFormat("en", {
   month: "short",

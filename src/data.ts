@@ -14,6 +14,22 @@ export type TimelineEvent = {
   accent: string;
 };
 
+export type SeasonCalendarData = {
+  updatedAt: string;
+  sourceName: string;
+  sourceUrl: string;
+  events: TimelineEvent[];
+  sources?: string[];
+  sourceHealth?: Record<string, SourceHealth>;
+};
+
+export type SourceHealth = {
+  ok: boolean;
+  status: number;
+  statusText: string;
+  checkedAt: string;
+};
+
 export type Release = {
   id: string;
   title: string;
@@ -23,4 +39,11 @@ export type Release = {
   confidence: Confidence;
   sourceName: string;
   sourceUrl: string;
+};
+
+export type ReleaseData = {
+  updatedAt: string;
+  sourceName: string;
+  sourceUrl: string;
+  releases: Release[];
 };
