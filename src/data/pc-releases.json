@@ -1,247 +1,247 @@
 {
-  "updatedAt": "2026-06-17T11:44:30.164Z",
-  "sourceName": "PC Gamer",
-  "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/",
+  "updatedAt": "2026-06-17T12:01:54.784Z",
+  "sourceName": "IGDB",
+  "sourceUrl": "https://www.igdb.com/discover",
   "releases": [
     {
-      "id": "denshattack",
-      "title": "Denshattack!",
+      "id": "goblinamerica",
+      "title": "GoblinAmerica",
       "date": "2026-06-17",
-      "genre": "Do sick rail grinds with a train",
+      "genre": "Shooter / Platform",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/goblinamerica"
     },
     {
-      "id": "goblinamerica-early-access",
-      "title": "goblinAmerica ( early access )",
+      "id": "glimvale-my-mini-overworld",
+      "title": "Glimvale: My Mini Overworld",
       "date": "2026-06-17",
-      "genre": "High speed psychedelic goblin-based FPS",
+      "genre": "Strategy / Indie",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/glimvale-my-mini-overworld"
+    },
+    {
+      "id": "the-last-salvage-squad",
+      "title": "The Last Salvage Squad",
+      "date": "2026-06-17",
+      "genre": "Shooter",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/the-last-salvage-squad"
+    },
+    {
+      "id": "warframe-jade-shadows-constellations",
+      "title": "Warframe: Jade Shadows - Constellations",
+      "date": "2026-06-17",
+      "genre": "Game",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/warframe-jade-shadows-constellations"
+    },
+    {
+      "id": "strozowka",
+      "title": "Strozowka",
+      "date": "2026-06-17",
+      "genre": "Simulator / Indie",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/strozowka"
+    },
+    {
+      "id": "the-seven-days-i-spent-with-you",
+      "title": "The Seven Days I Spent With You",
+      "date": "2026-06-17",
+      "genre": "Role-playing (RPG) / Simulator",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/the-seven-days-i-spent-with-you"
+    },
+    {
+      "id": "backrooms-lost-runners",
+      "title": "Backrooms Lost Runners",
+      "date": "2026-06-17",
+      "genre": "Adventure / Indie",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/backrooms-lost-runners"
+    },
+    {
+      "id": "god-for-a-day",
+      "title": "God For A Day",
+      "date": "2026-06-17",
+      "genre": "Simulator / Adventure",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/god-for-a-day"
+    },
+    {
+      "id": "the-scroll-of-taiwu",
+      "title": "The Scroll of Taiwu",
+      "date": "2026-06-17",
+      "genre": "Role-playing (RPG) / Strategy",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/the-scroll-of-taiwu"
+    },
+    {
+      "id": "deep-enough",
+      "title": "Deep Enough",
+      "date": "2026-06-17",
+      "genre": "Simulator / Adventure",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/deep-enough"
+    },
+    {
+      "id": "kooeh-a-timeless-delight",
+      "title": "Kooeh: A Timeless Delight",
+      "date": "2026-06-17",
+      "genre": "Simulator / Indie",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/kooeh-a-timeless-delight"
+    },
+    {
+      "id": "class-of-09-puzzle-showdown",
+      "title": "Class of '09: Puzzle Showdown",
+      "date": "2026-06-17",
+      "genre": "Puzzle",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/class-of-09-puzzle-showdown"
+    },
+    {
+      "id": "zenless-zone-zero-update-3-dot-0-a-sleepwalkers-confession",
+      "title": "Zenless Zone Zero: Update 3.0 - A Sleepwalker's Confession",
+      "date": "2026-06-17",
+      "genre": "Role-playing (RPG) / Hack and slash/Beat 'em up",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/zenless-zone-zero-update-3-dot-0-a-sleepwalkers-confession"
+    },
+    {
+      "id": "bee-streamer-idler",
+      "title": "Bee Streamer Idler",
+      "date": "2026-06-17",
+      "genre": "Simulator / Indie",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/bee-streamer-idler"
+    },
+    {
+      "id": "retrograde--2",
+      "title": "Retrograde",
+      "date": "2026-06-18",
+      "genre": "Arcade",
+      "platform": "PC",
+      "confidence": "confirmed",
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/retrograde--2"
     },
     {
       "id": "the-adventures-of-elliot-the-millennium-tales",
       "title": "The Adventures of Elliot: The Millennium Tales",
       "date": "2026-06-18",
-      "genre": "Octopath and Bravely Default devs' next HD-2D RPG",
+      "genre": "Role-playing (RPG) / Adventure",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/the-adventures-of-elliot-the-millennium-tales"
     },
     {
-      "id": "r-type-tactics-i-ii-cosmos",
-      "title": "R-Type Tactics I - II Cosmos",
+      "id": "dave-the-diver-in-the-jungle",
+      "title": "Dave the Diver: In the Jungle",
       "date": "2026-06-18",
-      "genre": "Tactics spinoff of side-scroll shooter",
+      "genre": "Role-playing (RPG) / Simulator",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/dave-the-diver-in-the-jungle"
     },
     {
-      "id": "thank-you-for-your-application",
-      "title": "Thank You For Your Application",
-      "date": "2026-06-19",
-      "genre": "Side with capital or the workers in a narrative interview sim",
+      "id": "r-type-tactics-i-and-ii-cosmos",
+      "title": "R-Type Tactics I & II Cosmos",
+      "date": "2026-06-18",
+      "genre": "Simulator / Strategy",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/r-type-tactics-i-and-ii-cosmos"
     },
     {
-      "id": "empulse",
-      "title": "Empulse",
-      "date": "2026-06-24",
-      "genre": "6v6 wall-running FPS",
+      "id": "the-adventures-of-elliot-the-millennium-tales-digital-deluxe-edition",
+      "title": "The Adventures of Elliot: The Millennium Tales - Digital Deluxe Edition",
+      "date": "2026-06-18",
+      "genre": "Game",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/the-adventures-of-elliot-the-millennium-tales-digital-deluxe-edition"
     },
     {
-      "id": "dead-or-alive-6-last-round",
-      "title": "Dead or Alive 6: Last Round",
-      "date": "2026-06-25",
-      "genre": "The DoA 6 roster with another batch of fighters",
+      "id": "mythic-love-iberian-legends--1",
+      "title": "Mythic Love: Iberian Legends",
+      "date": "2026-06-18",
+      "genre": "Simulator / Indie",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/mythic-love-iberian-legends--1"
     },
     {
-      "id": "moonlight-peaks",
-      "title": "Moonlight Peaks",
-      "date": "2026-07-07",
-      "genre": "Vampiric farming sim",
+      "id": "boing-over-it",
+      "title": "Boing Over It",
+      "date": "2026-06-18",
+      "genre": "Indie",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/boing-over-it"
     },
     {
-      "id": "outward-2",
-      "title": "Outward 2",
-      "date": "2026-07-07",
-      "genre": "Hardcore RPG sequel",
+      "id": "arcadie-ii-cold-lands",
+      "title": "Arcadie II: Cold Lands",
+      "date": "2026-06-18",
+      "genre": "Role-playing (RPG) / Adventure",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/arcadie-ii-cold-lands"
     },
     {
-      "id": "assassin-s-creed-black-flag-resynced",
-      "title": "Assassin's Creed Black Flag: Resynced",
-      "date": "2026-07-09",
-      "genre": "Pirate assassin remake",
+      "id": "you-are-the-monster",
+      "title": "You Are The Monster",
+      "date": "2026-06-18",
+      "genre": "Adventure / Arcade",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/you-are-the-monster"
     },
     {
-      "id": "echoes-of-aincrad",
-      "title": "Echoes of Aincrad",
-      "date": "2026-07-10",
-      "genre": "Sword Art Online action RPG",
+      "id": "thousand-floors",
+      "title": "Thousand Floors",
+      "date": "2026-06-18",
+      "genre": "Indie",
       "platform": "PC",
       "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "the-mound-omen-of-cthulhu",
-      "title": "The Mound: Omen of Cthulhu",
-      "date": "2026-07-15",
-      "genre": "A co-op search for treasure gone wrong",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "shift-at-midnight",
-      "title": "Shift at Midnight",
-      "date": "2026-07-15",
-      "genre": "Run your own terrifying gas station (with friends)",
-      "platform": "PC",
-      "confidence": "window",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "fading-echo",
-      "title": "Fading Echo",
-      "date": "2026-07-21",
-      "genre": "Third person desertpunk action",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "avatar-legends-the-fighting-game",
-      "title": "Avatar Legends: The Fighting Game",
-      "date": "2026-07-23",
-      "genre": "2D 1v1 matches as Aang and the gang",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "halo-campaign-evolved",
-      "title": "Halo: Campaign Evolved",
-      "date": "2026-07-28",
-      "genre": "Halo: Combat Evolved campaign remake",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "mistfall-hunter",
-      "title": "Mistfall Hunter",
-      "date": "2026-07-29",
-      "genre": "PvPvE extraction RPG",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "corsair-cove",
-      "title": "Corsair Cove",
-      "date": "2026-07-31",
-      "genre": "Swashbucklin' city builder",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "beast-of-reincarnation",
-      "title": "Beast of Reincarnation",
-      "date": "2026-08-03",
-      "genre": "Pokemon devs do post-apoc action RPG",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "big-walk",
-      "title": "Big Walk",
-      "date": "2026-08-04",
-      "genre": "Multiplayer walk-sim from Untitled Goose Game devs",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "marvel-t-kon-fighting-souls",
-      "title": "Marvel Tōkon: Fighting Souls",
-      "date": "2026-08-06",
-      "genre": "Guilty Gear team tackles tag team Marvel",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "hell-let-loose-vietnam",
-      "title": "Hell Let Loose: Vietnam",
-      "date": "2026-08-13",
-      "genre": "Wage 50v50 battles in a '60s-era conflict",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "rivage",
-      "title": "Rivage",
-      "date": "2026-08-13",
-      "genre": "Sci-fi puzzle adventure",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
-    },
-    {
-      "id": "grave-seasons",
-      "title": "Grave Seasons",
-      "date": "2026-08-14",
-      "genre": "Stardew Valley with a supernatural killer",
-      "platform": "PC",
-      "confidence": "confirmed",
-      "sourceName": "PC Gamer",
-      "sourceUrl": "https://www.pcgamer.com/games/new-pc-games-2026/"
+      "sourceName": "IGDB",
+      "sourceUrl": "https://www.igdb.com/games/thousand-floors"
     }
   ]
 }

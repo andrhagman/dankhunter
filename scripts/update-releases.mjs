@@ -74,11 +74,10 @@ async function getUpcomingPcReleases(id, token) {
   maxDate.setUTCDate(maxDate.getUTCDate() + LOOKAHEAD_DAYS);
 
   const query = [
-    "fields date,human,status,game.name,game.slug,game.url,game.genres.name,game.category;",
+    "fields date,human,status,game.name,game.slug,game.url,game.genres.name;",
     `where platform = ${PC_PLATFORM_ID}`,
     `& date >= ${Math.floor(today.getTime() / 1000)}`,
-    `& date <= ${Math.floor(maxDate.getTime() / 1000)}`,
-    "& game.category = 0;",
+    `& date <= ${Math.floor(maxDate.getTime() / 1000)};`,
     "sort date asc;",
     `limit ${MAX_RELEASES};`
   ].join(" ");
@@ -113,7 +112,7 @@ async function getUpcomingPcReleases(id, token) {
       date: new Date(row.date * 1000).toISOString().slice(0, 10),
       genre: summarizeGenres(row.game.genres),
       platform: "PC",
-      confidence: row.status ? "window" : "confirmed",
+      confidence: isExactDate(row.human) ? "confirmed" : "window",
       sourceName: SOURCE_NAME,
       sourceUrl: row.game.url || SOURCE_URL
     };
@@ -140,6 +139,10 @@ function summarizeGenres(genres) {
 
 function normalizeTitle(value) {
   return value.replace(/\s+/g, " ").trim();
+}
+
+function isExactDate(value) {
+  return typeof value === "string" && /^[A-Z][a-z]{2} \d{1,2}, \d{4}$/.test(value);
 }
 
 function slugify(value) {
