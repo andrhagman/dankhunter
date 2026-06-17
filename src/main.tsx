@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { AnimatePresence, motion, useReducedMotion, type Transition, type Variants } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion, type Transition, type Variants } from "motion/react";
 import {
   CalendarDays,
   CircleDot,
@@ -10,7 +10,6 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
-  Swords,
   TimerReset,
   Settings2,
   X
@@ -23,6 +22,8 @@ import "./styles.css";
 const pcReleases = releaseData.releases as Release[];
 const timelineEvents = seasonData.events as TimelineEvent[];
 const preferenceStorageKey = "dankhunter-season-games";
+const calendarFilters = ["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"];
+const brandIconUrl = `${import.meta.env.BASE_URL}dankhunter-icon.png`;
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -47,10 +48,15 @@ const panelMotion: Variants = {
 
 const itemMotion: Variants = {
   hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -6 }
 };
 
 const smoothTransition: Transition = { duration: 0.22, ease: "easeOut" };
+const listFadeTransition: Transition = { duration: 0.2, ease: "easeOut" };
+const layoutTransition: Transition = { type: "spring", stiffness: 520, damping: 42, mass: 0.7 };
+
+type ListPhase = "idle" | "out" | "in";
 
 function normalizedDate(date: string) {
   return new Date(date);
@@ -180,7 +186,7 @@ function App() {
       <section className="topbar" aria-label="Dankhunter overview">
         <div className="brand">
           <div className="brand-mark" aria-hidden="true">
-            <Swords size={24} />
+            <img alt="" src={brandIconUrl} />
           </div>
           <div>
             <p>Dankhunter</p>
@@ -264,16 +270,17 @@ function App() {
             <section className="calendar-toolbar" aria-label="Calendar controls">
               <div className="toolbar-group" aria-label="Calendar filters">
                 <span className="toolbar-label">Show</span>
-                {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
-                  <button
-                    className={kind === filter ? "active" : ""}
-                    key={filter}
-                    onClick={() => setKind(filter)}
-                    type="button"
-                  >
-                    {filter}
-                  </button>
-                ))}
+                <LayoutGroup id="calendar-filters">
+                  {calendarFilters.map((filter) => (
+                    <FilterButton
+                      isActive={kind === filter}
+                      key={filter}
+                      label={filter}
+                      onClick={() => setKind(filter)}
+                      reduceMotion={Boolean(reduceMotion)}
+                    />
+                  ))}
+                </LayoutGroup>
               </div>
 
               <div className="toolbar-actions">
@@ -346,18 +353,7 @@ function App() {
             ) : null}
             </AnimatePresence>
 
-            <div className="timeline">
-              {filteredEvents.length > 0 ? (
-                filteredEvents.map((event, index) => (
-                  <TimelineCard key={event.id} event={event} index={index} reduceMotion={Boolean(reduceMotion)} />
-                ))
-              ) : (
-                <motion.div className="empty-state" {...itemMotionProps}>
-                  <strong>No matching seasons</strong>
-                  <span>Adjust your calendar preferences, search, or filter.</span>
-                </motion.div>
-              )}
-            </div>
+            <CalendarList events={filteredEvents} reduceMotion={Boolean(reduceMotion)} />
           </motion.div>
         ) : null}
 
@@ -384,34 +380,38 @@ function App() {
             </div>
 
             <div className="release-list">
-              {filteredReleases.length > 0 ? (
-                filteredReleases.map((release, index) => (
-                  <motion.a
-                    className="release-row"
-                    href={release.sourceUrl}
-                    key={release.id}
-                    {...(reduceMotion
-                      ? {}
-                      : {
-                          initial: "hidden",
-                          animate: "visible",
-                          variants: itemMotion,
-                          transition: { ...smoothTransition, delay: Math.min(index * 0.018, 0.18) }
-                        })}
-                  >
-                    <div>
-                      <strong>{release.title}</strong>
-                      <span>{release.genre}</span>
-                    </div>
-                    <time>{prettyDate(release.date, release.confidence)}</time>
-                  </motion.a>
-                ))
-              ) : (
-                <motion.div className="empty-state" {...itemMotionProps}>
-                  <strong>No matching releases</strong>
-                  <span>Try another game title, genre, or platform.</span>
-                </motion.div>
-              )}
+              <AnimatePresence initial={false}>
+                {filteredReleases.length > 0 ? (
+                  filteredReleases.map((release, index) => (
+                    <motion.a
+                      className="release-row"
+                      href={release.sourceUrl}
+                      key={release.id}
+                      layout
+                      {...(reduceMotion
+                        ? {}
+                        : {
+                            initial: "hidden",
+                            animate: "visible",
+                            exit: "exit",
+                            variants: itemMotion,
+                            transition: { ...smoothTransition, delay: Math.min(index * 0.012, 0.12) }
+                          })}
+                    >
+                      <div>
+                        <strong>{release.title}</strong>
+                        <span>{release.genre}</span>
+                      </div>
+                      <time>{prettyDate(release.date, release.confidence)}</time>
+                    </motion.a>
+                  ))
+                ) : (
+                  <motion.div className="empty-state" key="empty-releases" layout {...itemMotionProps}>
+                    <strong>No matching releases</strong>
+                    <span>Try another game title, genre, or platform.</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.aside>
         ) : null}
@@ -434,6 +434,124 @@ function readStoredGames(allGames: string[]) {
   }
 
   return allGames;
+}
+
+function eventSignature(events: TimelineEvent[]) {
+  return events.map((event) => event.id).join("|");
+}
+
+function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduceMotion: boolean }) {
+  const [displayedEvents, setDisplayedEvents] = React.useState(events);
+  const [shellHeight, setShellHeight] = React.useState<number | "auto">("auto");
+  const [phase, setPhase] = React.useState<ListPhase>("idle");
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const timers = React.useRef<number[]>([]);
+  const targetSignature = eventSignature(events);
+  const displayedSignature = eventSignature(displayedEvents);
+  const timelineAnimate = reduceMotion
+    ? undefined
+    : {
+        opacity: phase === "out" ? 0.16 : 1,
+        y: phase === "out" ? -6 : 0,
+        filter: phase === "out" ? "blur(2px)" : "blur(0px)"
+      };
+
+  React.useEffect(() => {
+    return () => {
+      timers.current.forEach(window.clearTimeout);
+    };
+  }, []);
+
+  React.useLayoutEffect(() => {
+    if (targetSignature === displayedSignature) {
+      return;
+    }
+
+    if (reduceMotion) {
+      setDisplayedEvents(events);
+      setShellHeight("auto");
+      setPhase("idle");
+      return;
+    }
+
+    timers.current.forEach(window.clearTimeout);
+    timers.current = [];
+    const previousHeight = contentRef.current?.offsetHeight ?? 0;
+    setShellHeight(previousHeight);
+    setPhase("out");
+
+    const swapTimer = window.setTimeout(() => {
+      setDisplayedEvents(events);
+      setPhase("in");
+
+      requestAnimationFrame(() => {
+        const nextHeight = contentRef.current?.offsetHeight ?? previousHeight;
+        setShellHeight(nextHeight);
+
+        const releaseTimer = window.setTimeout(() => {
+          setShellHeight("auto");
+          setPhase("idle");
+        }, 360);
+        timers.current.push(releaseTimer);
+      });
+    }, 180);
+
+    timers.current.push(swapTimer);
+  }, [displayedSignature, events, reduceMotion, targetSignature]);
+
+  return (
+    <motion.div
+      animate={{ height: shellHeight }}
+      className="timeline-shell"
+      transition={layoutTransition}
+    >
+      <motion.div
+        animate={timelineAnimate}
+        className="timeline"
+        ref={contentRef}
+        transition={listFadeTransition}
+      >
+        {displayedEvents.length > 0 ? (
+          displayedEvents.map((event) => <TimelineCard key={event.id} event={event} />)
+        ) : (
+          <motion.div className="empty-state" layout transition={layoutTransition}>
+            <strong>No matching seasons</strong>
+            <span>Adjust your calendar preferences, search, or filter.</span>
+          </motion.div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function FilterButton({
+  isActive,
+  label,
+  onClick,
+  reduceMotion
+}: {
+  isActive: boolean;
+  label: string;
+  onClick: () => void;
+  reduceMotion: boolean;
+}) {
+  return (
+    <button
+      aria-pressed={isActive}
+      className={`filter-button ${isActive ? "active" : ""}`}
+      onClick={onClick}
+      type="button"
+    >
+      {isActive && !reduceMotion ? (
+        <motion.span
+          className="filter-active-indicator"
+          layoutId="calendar-filter-active"
+          transition={layoutTransition}
+        />
+      ) : null}
+      <span className="filter-button-label">{label}</span>
+    </button>
+  );
 }
 
 function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
@@ -478,13 +596,9 @@ function SearchField({
 }
 
 function TimelineCard({
-  event,
-  index,
-  reduceMotion
+  event
 }: {
   event: TimelineEvent;
-  index: number;
-  reduceMotion: boolean;
 }) {
   const remaining = daysUntil(event.date);
   const isPast = remaining < 0;
@@ -494,14 +608,7 @@ function TimelineCard({
       className="timeline-card"
       layout
       style={{ "--accent": event.accent } as React.CSSProperties}
-      {...(reduceMotion
-        ? {}
-        : {
-            initial: "hidden",
-            animate: "visible",
-            variants: itemMotion,
-            transition: { ...smoothTransition, delay: Math.min(index * 0.025, 0.2) }
-          })}
+      transition={layoutTransition}
     >
       <div className="date-block">
         <time>{prettyDate(event.date, event.confidence)}</time>

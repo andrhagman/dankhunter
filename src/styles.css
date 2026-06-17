@@ -62,8 +62,16 @@ main {
   place-items: center;
   border: 1px solid rgba(244, 240, 232, 0.2);
   border-radius: 8px;
-  background: linear-gradient(145deg, #d64e35, #355f95);
+  overflow: hidden;
+  background: #151713;
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+}
+
+.brand-mark img {
+  width: 150%;
+  height: 150%;
+  object-fit: cover;
+  transform: translateY(-5%);
 }
 
 .brand p {
@@ -303,7 +311,9 @@ h1 {
 }
 
 .calendar-toolbar button {
+  position: relative;
   flex: 0 0 auto;
+  overflow: hidden;
   min-height: 38px;
   padding: 0 14px;
   border: 1px solid rgba(244, 240, 232, 0.12);
@@ -317,6 +327,32 @@ h1 {
 .calendar-toolbar button:hover {
   color: #171411;
   background: #f0b667;
+}
+
+.filter-button {
+  isolation: isolate;
+}
+
+.filter-active-indicator {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 8px;
+  background: #f0b667;
+}
+
+.filter-button.active {
+  color: #171411;
+  background: transparent;
+}
+
+.filter-button.active:hover {
+  background: transparent;
+}
+
+.filter-button-label {
+  position: relative;
+  z-index: 1;
 }
 
 .layout {
@@ -477,10 +513,15 @@ h1 {
   background: #f0b667;
 }
 
+.timeline-shell {
+  overflow: hidden;
+}
+
 .timeline {
   position: relative;
   display: grid;
   gap: 14px;
+  will-change: opacity, transform;
 }
 
 .empty-state {
