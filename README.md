@@ -20,7 +20,7 @@ This repo is configured for GitHub Pages as a project site at `/dankhunter/`.
 
 ## Data
 
-ARPG season data lives in `src/data.ts`. PC release data lives in `src/data/pc-releases.json` and is generated from the PC Gamer release calendar.
+ARPG season data lives in `src/data.ts`. PC release data lives in `src/data/pc-releases.json` and is generated from IGDB's structured `release_dates` API.
 
 - `confirmed`: a named date or live event from an official or tracker source.
 - `window`: a published release window with no exact date.
@@ -31,6 +31,13 @@ Date-sensitive entries should be reviewed before publishing.
 ## Scheduled release updates
 
 `.github/workflows/update-releases.yml` runs every night at `03:23 UTC` and can also be started manually from GitHub Actions.
+
+The workflow requires these repository secrets:
+
+- `IGDB_CLIENT_ID`
+- `IGDB_CLIENT_SECRET`
+
+Create them from a Twitch Developer application, since IGDB authentication uses Twitch app access tokens.
 
 The workflow:
 

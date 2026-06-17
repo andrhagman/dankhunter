@@ -1,46 +1,27 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
-const SOURCE_NAME = "PC Gamer";
-const SOURCE_URL = "https://www.pcgamer.com/games/new-pc-games-2026/";
+const SOURCE_NAME = "IGDB";
+const SOURCE_URL = "https://www.igdb.com/discover";
 const OUTPUT_FILE = new URL("../src/data/pc-releases.json", import.meta.url);
-const YEAR = 2026;
 const MAX_RELEASES = 24;
+const PC_PLATFORM_ID = 6;
+const LOOKAHEAD_DAYS = 365;
 
-const monthNumbers = new Map(
-  [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ].map((month, index) => [month, index + 1])
-);
+const clientId = process.env.IGDB_CLIENT_ID;
+const clientSecret = process.env.IGDB_CLIENT_SECRET;
 
-const response = await fetch(SOURCE_URL, {
-  headers: {
-    "user-agent": "Dankhunter release updater (+https://github.com/andrhagman/dankhunter)"
-  }
-});
-
-if (!response.ok) {
-  throw new Error(`Failed to fetch ${SOURCE_URL}: ${response.status} ${response.statusText}`);
+if (!clientId || !clientSecret) {
+  throw new Error(
+    "Missing IGDB credentials. Set IGDB_CLIENT_ID and IGDB_CLIENT_SECRET in GitHub repository secrets."
+  );
 }
 
-const html = await response.text();
-const releases = parsePcGamerCalendar(html)
-  .filter((release) => Date.parse(release.date) >= Date.now() - 86_400_000)
-  .slice(0, MAX_RELEASES);
+const accessToken = await getAccessToken(clientId, clientSecret);
+const releases = await getUpcomingPcReleases(clientId, accessToken);
 
 if (releases.length === 0) {
-  throw new Error("No upcoming PC releases were parsed from the source page.");
+  throw new Error("IGDB returned no upcoming PC releases.");
 }
 
 const previous = await readPreviousOutput();
@@ -59,48 +40,85 @@ const output = {
 await mkdir(dirname(OUTPUT_FILE.pathname), { recursive: true });
 await writeFile(OUTPUT_FILE, `${JSON.stringify(output, null, 2)}\n`);
 
-console.log(`Wrote ${releases.length} releases to ${OUTPUT_FILE.pathname}`);
+console.log(`Wrote ${releases.length} IGDB releases to ${OUTPUT_FILE.pathname}`);
 
-function parsePcGamerCalendar(pageHtml) {
-  const tables = [...pageHtml.matchAll(/<caption[^>]*>\s*Upcoming PC games in ([^<]+)<\/caption>([\s\S]*?)<\/table>/gi)];
+async function getAccessToken(id, secret) {
+  const params = new URLSearchParams({
+    client_id: id,
+    client_secret: secret,
+    grant_type: "client_credentials"
+  });
+
+  const response = await fetch(`https://id.twitch.tv/oauth2/token?${params}`, {
+    method: "POST"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Twitch app token: ${response.status} ${response.statusText}`);
+  }
+
+  const token = await response.json();
+
+  if (!token.access_token) {
+    throw new Error("Twitch token response did not include access_token.");
+  }
+
+  return token.access_token;
+}
+
+async function getUpcomingPcReleases(id, token) {
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  const maxDate = new Date(today);
+  maxDate.setUTCDate(maxDate.getUTCDate() + LOOKAHEAD_DAYS);
+
+  const query = [
+    "fields date,human,status,game.name,game.slug,game.url,game.genres.name,game.category;",
+    `where platform = ${PC_PLATFORM_ID}`,
+    `& date >= ${Math.floor(today.getTime() / 1000)}`,
+    `& date <= ${Math.floor(maxDate.getTime() / 1000)}`,
+    "& game.category = 0;",
+    "sort date asc;",
+    `limit ${MAX_RELEASES};`
+  ].join(" ");
+
+  const response = await fetch("https://api.igdb.com/v4/release_dates", {
+    method: "POST",
+    headers: {
+      "Client-ID": id,
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json"
+    },
+    body: query
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`IGDB release_dates query failed: ${response.status} ${response.statusText}\n${body}`);
+  }
+
+  const rows = await response.json();
   const releasesById = new Map();
 
-  for (const [, monthName, tableHtml] of tables) {
-    const month = monthNumbers.get(decodeHtml(monthName).trim());
-
-    if (!month) {
+  for (const row of rows) {
+    if (!row.date || !row.game?.name) {
       continue;
     }
 
-    for (const rowHtml of tableHtml.match(/<tr\b[\s\S]*?<\/tr>/gi) ?? []) {
-      const cells = [...rowHtml.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map((match) => match[1]);
+    const title = normalizeTitle(row.game.name);
+    const release = {
+      id: row.game.slug || slugify(title),
+      title,
+      date: new Date(row.date * 1000).toISOString().slice(0, 10),
+      genre: summarizeGenres(row.game.genres),
+      platform: "PC",
+      confidence: row.status ? "window" : "confirmed",
+      sourceName: SOURCE_NAME,
+      sourceUrl: row.game.url || SOURCE_URL
+    };
 
-      if (cells.length < 3) {
-        continue;
-      }
-
-      const dateText = cleanText(cells[0]);
-      const dayMatch = dateText.match(/\b(\d{1,2})\b/);
-      const confidence = dateText.includes("??") ? "window" : "confirmed";
-      const day = dayMatch ? Number(dayMatch[1]) : 15;
-      const title = cleanText(cells[1]).replace(/\s*\([^)]*\)\s*$/, "");
-      const genre = cleanText(cells[2]);
-
-      if (!title || !genre) {
-        continue;
-      }
-
-      const release = {
-        id: slugify(title),
-        title,
-        date: `${YEAR}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-        genre,
-        platform: "PC",
-        confidence,
-        sourceName: SOURCE_NAME,
-        sourceUrl: SOURCE_URL
-      };
-
+    if (!releasesById.has(release.id)) {
       releasesById.set(release.id, release);
     }
   }
@@ -108,22 +126,20 @@ function parsePcGamerCalendar(pageHtml) {
   return [...releasesById.values()].sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 }
 
-function cleanText(htmlFragment) {
-  return decodeHtml(htmlFragment.replace(/<[^>]*>/g, " "))
-    .replace(/\s+/g, " ")
-    .trim();
+function summarizeGenres(genres) {
+  if (!Array.isArray(genres) || genres.length === 0) {
+    return "Game";
+  }
+
+  return genres
+    .map((genre) => genre.name)
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(" / ");
 }
 
-function decodeHtml(value) {
-  return value
-    .replace(/&#(\d+);/g, (_, codepoint) => String.fromCodePoint(Number(codepoint)))
-    .replace(/&#x([\da-f]+);/gi, (_, codepoint) => String.fromCodePoint(Number.parseInt(codepoint, 16)))
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, "\"")
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&mdash;/g, "-")
-    .replace(/&ndash;/g, "-");
+function normalizeTitle(value) {
+  return value.replace(/\s+/g, " ").trim();
 }
 
 function slugify(value) {

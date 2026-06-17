@@ -35,7 +35,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Scrape release data
+      - name: Update release data from IGDB
+        env:
+          IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
         run: npm run update:releases
 
       - name: Build
