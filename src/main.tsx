@@ -176,7 +176,7 @@ function App() {
               <CalendarDays size={17} />
               <span>
                 Season calendar
-                <small>Seasons, wipes, expansions</small>
+                <small>Live season dates</small>
               </span>
             </button>
             <button
