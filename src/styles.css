@@ -219,6 +219,39 @@ h1 {
   background: rgba(255, 255, 255, 0.05);
 }
 
+.mode-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: min(var(--content-width), 100%);
+  margin: 0 auto 10px;
+  padding: 8px;
+  border: 1px solid rgba(244, 240, 232, 0.11);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mode-switch button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #cfc8bd;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.mode-switch button.active,
+.mode-switch button:hover {
+  border-color: rgba(240, 182, 103, 0.34);
+  color: #171411;
+  background: #f0b667;
+}
+
 .control-label {
   display: inline-flex;
   align-items: center;
@@ -248,9 +281,6 @@ h1 {
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(400px, 0.9fr);
-  gap: 18px;
   width: min(var(--content-width), 100%);
   margin: 0 auto;
 }
@@ -514,6 +544,7 @@ h1 {
 
 .release-list {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -556,8 +587,7 @@ h1 {
   }
 
   .topbar,
-  .hero,
-  .layout {
+  .hero {
     grid-template-columns: 1fr;
   }
 
@@ -626,6 +656,11 @@ h1 {
 
   .controls {
     justify-content: flex-start;
+  }
+
+  .mode-switch,
+  .release-list {
+    grid-template-columns: 1fr;
   }
 
   .timeline::before,

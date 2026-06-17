@@ -37,6 +37,8 @@ const monthFormatter = new Intl.DateTimeFormat("en", {
   year: "numeric"
 });
 
+type ViewMode = "seasons" | "releases";
+
 function normalizedDate(date: string) {
   return new Date(date);
 }
@@ -68,6 +70,7 @@ function confidenceLabel(confidence: Confidence) {
 function App() {
   const [query, setQuery] = React.useState("");
   const [kind, setKind] = React.useState("Upcoming");
+  const [mode, setMode] = React.useState<ViewMode>("seasons");
   const [isPreferencesOpen, setIsPreferencesOpen] = React.useState(false);
 
   const seasonGames = React.useMemo(
@@ -87,9 +90,36 @@ function App() {
     return matchesKind && haystack.includes(query.toLowerCase());
   });
 
+  const sortedReleases = [...pcReleases].sort(
+    (a, b) => normalizedDate(a.date).getTime() - normalizedDate(b.date).getTime()
+  );
+  const filteredReleases = sortedReleases.filter((release) => {
+    const haystack = `${release.title} ${release.genre} ${release.platform}`.toLowerCase();
+    return haystack.includes(query.toLowerCase());
+  });
+
   const upcomingCount = selectedEvents.filter((event) => event.status === "Upcoming").length;
   const nextEvent = selectedEvents.find((event) => event.status === "Upcoming") ?? selectedEvents[0];
+  const nextRelease = sortedReleases[0];
   const selectedGameCount = selectedGames.length;
+  const activeStats =
+    mode === "seasons"
+      ? {
+          events: selectedEvents.length,
+          label: "Tracked seasons",
+          upcoming: upcomingCount,
+          upcomingLabel: "Upcoming",
+          next: nextEvent ? prettyDate(nextEvent.date, nextEvent.confidence) : "None",
+          nextLabel: "Next window"
+        }
+      : {
+          events: sortedReleases.length,
+          label: "Tracked releases",
+          upcoming: filteredReleases.length,
+          upcomingLabel: "Visible",
+          next: nextRelease ? prettyDate(nextRelease.date, nextRelease.confidence) : "None",
+          nextLabel: "Next release"
+        };
 
   React.useEffect(() => {
     localStorage.setItem(preferenceStorageKey, JSON.stringify(selectedGames));
@@ -132,7 +162,7 @@ function App() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search games, seasons, expansions"
+            placeholder="Search games, seasons, releases"
             aria-label="Search"
           />
         </div>
@@ -145,139 +175,173 @@ function App() {
           </p>
           <h1>Track the next grind before the patch notes hit.</h1>
           <p>
-            A compact calendar for seasons, wipes, expansions, ladders, and notable PC launches.
+            Season calendar first, with upcoming PC releases one switch away.
           </p>
         </div>
 
         <div className="stats-grid" aria-label="Tracker stats">
-          <Metric icon={<CalendarDays />} label="Tracked events" value={selectedEvents.length} />
-          <Metric icon={<TimerReset />} label="Upcoming" value={upcomingCount} />
+          <Metric icon={<CalendarDays />} label={activeStats.label} value={activeStats.events} />
+          <Metric icon={<TimerReset />} label={activeStats.upcomingLabel} value={activeStats.upcoming} />
           <Metric
             icon={<CircleDot />}
-            label="Next window"
-            value={nextEvent ? prettyDate(nextEvent.date, nextEvent.confidence) : "None"}
+            label={activeStats.nextLabel}
+            value={activeStats.next}
           />
         </div>
       </section>
 
-      <section className="controls" aria-label="Timeline filters">
-        <div className="control-label">
-          <Filter size={17} />
-          Filter
-        </div>
-        {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
-          <button
-            className={kind === filter ? "active" : ""}
-            key={filter}
-            onClick={() => setKind(filter)}
-            type="button"
-          >
-            {filter}
-          </button>
-        ))}
+      <section className="mode-switch" aria-label="Tracker mode">
+        <button
+          aria-pressed={mode === "seasons"}
+          className={mode === "seasons" ? "active" : ""}
+          onClick={() => setMode("seasons")}
+          type="button"
+        >
+          <CalendarDays size={17} />
+          Season calendar
+        </button>
+        <button
+          aria-pressed={mode === "releases"}
+          className={mode === "releases" ? "active" : ""}
+          onClick={() => setMode("releases")}
+          type="button"
+        >
+          <Gamepad2 size={17} />
+          Game releases
+        </button>
       </section>
 
-      <section className="layout">
-        <div className="panel timeline-panel">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">
-                <CalendarDays size={16} /> Season calendar
-              </p>
-              <h2>Season calendar</h2>
-            </div>
-            <div className="calendar-actions">
-              <span>{filteredEvents.length} visible</span>
-              <button
-                aria-expanded={isPreferencesOpen}
-                aria-label="Season calendar preferences"
-                className="icon-button"
-                onClick={() => setIsPreferencesOpen((open) => !open)}
-                title="Season calendar preferences"
-                type="button"
-              >
-                <Settings2 size={18} />
-              </button>
-            </div>
+      {mode === "seasons" ? (
+        <section className="controls" aria-label="Season calendar filters">
+          <div className="control-label">
+            <Filter size={17} />
+            Filter
           </div>
+          {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
+            <button
+              className={kind === filter ? "active" : ""}
+              key={filter}
+              onClick={() => setKind(filter)}
+              type="button"
+            >
+              {filter}
+            </button>
+          ))}
+        </section>
+      ) : null}
 
-          {isPreferencesOpen ? (
-            <div className="preferences-popover" role="dialog" aria-label="Season calendar preferences">
-              <div className="preferences-header">
-                <div>
-                  <strong>My calendar</strong>
-                  <span>
-                    {selectedGameCount} of {seasonGames.length} games selected
-                  </span>
-                </div>
+      <section className="layout">
+        {mode === "seasons" ? (
+          <div className="panel timeline-panel">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">
+                  <CalendarDays size={16} /> Priority watchlist
+                </p>
+                <h2>Season calendar</h2>
+              </div>
+              <div className="calendar-actions">
+                <span>{filteredEvents.length} visible</span>
                 <button
-                  aria-label="Close preferences"
+                  aria-expanded={isPreferencesOpen}
+                  aria-label="Season calendar preferences"
                   className="icon-button"
-                  onClick={() => setIsPreferencesOpen(false)}
-                  title="Close"
+                  onClick={() => setIsPreferencesOpen((open) => !open)}
+                  title="Season calendar preferences"
                   type="button"
                 >
-                  <X size={17} />
-                </button>
-              </div>
-              <div className="game-toggle-list">
-                {seasonGames.map((game) => (
-                  <label className="game-toggle" key={game}>
-                    <input
-                      checked={selectedGames.includes(game)}
-                      onChange={() => toggleGame(game)}
-                      type="checkbox"
-                    />
-                    <span>{game}</span>
-                  </label>
-                ))}
-              </div>
-              <div className="preferences-footer">
-                <button onClick={selectAllGames} type="button">
-                  Select all
-                </button>
-                <button onClick={resetDefaultGames} type="button">
-                  Reset
+                  <Settings2 size={18} />
                 </button>
               </div>
             </div>
-          ) : null}
 
-          <div className="timeline">
-            {filteredEvents.length > 0 ? (
-              filteredEvents.map((event) => <TimelineCard key={event.id} event={event} />)
-            ) : (
-              <div className="empty-state">
-                <strong>No matching seasons</strong>
-                <span>Adjust your calendar preferences, search, or filter.</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <aside className="panel releases-panel">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">
-                <Gamepad2 size={16} /> Release radar
-              </p>
-              <h2>Upcoming PC games</h2>
-            </div>
-            <span>Updated {releasesUpdatedAt}</span>
-          </div>
-
-          <div className="release-list">
-            {pcReleases.map((release) => (
-              <a className="release-row" href={release.sourceUrl} key={release.id}>
-                <div>
-                  <strong>{release.title}</strong>
-                  <span>{release.genre}</span>
+            {isPreferencesOpen ? (
+              <div className="preferences-popover" role="dialog" aria-label="Season calendar preferences">
+                <div className="preferences-header">
+                  <div>
+                    <strong>My calendar</strong>
+                    <span>
+                      {selectedGameCount} of {seasonGames.length} games selected
+                    </span>
+                  </div>
+                  <button
+                    aria-label="Close preferences"
+                    className="icon-button"
+                    onClick={() => setIsPreferencesOpen(false)}
+                    title="Close"
+                    type="button"
+                  >
+                    <X size={17} />
+                  </button>
                 </div>
-                <time>{prettyDate(release.date, release.confidence)}</time>
-              </a>
-            ))}
+                <div className="game-toggle-list">
+                  {seasonGames.map((game) => (
+                    <label className="game-toggle" key={game}>
+                      <input
+                        checked={selectedGames.includes(game)}
+                        onChange={() => toggleGame(game)}
+                        type="checkbox"
+                      />
+                      <span>{game}</span>
+                    </label>
+                  ))}
+                </div>
+                <div className="preferences-footer">
+                  <button onClick={selectAllGames} type="button">
+                    Select all
+                  </button>
+                  <button onClick={resetDefaultGames} type="button">
+                    Reset
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="timeline">
+              {filteredEvents.length > 0 ? (
+                filteredEvents.map((event) => <TimelineCard key={event.id} event={event} />)
+              ) : (
+                <div className="empty-state">
+                  <strong>No matching seasons</strong>
+                  <span>Adjust your calendar preferences, search, or filter.</span>
+                </div>
+              )}
+            </div>
           </div>
-        </aside>
+        ) : null}
+
+        {mode === "releases" ? (
+          <aside className="panel releases-panel">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">
+                  <Gamepad2 size={16} /> Release radar
+                </p>
+                <h2>Game releases</h2>
+              </div>
+              <span>Updated {releasesUpdatedAt}</span>
+            </div>
+
+            <div className="release-list">
+              {filteredReleases.length > 0 ? (
+                filteredReleases.map((release) => (
+                  <a className="release-row" href={release.sourceUrl} key={release.id}>
+                    <div>
+                      <strong>{release.title}</strong>
+                      <span>{release.genre}</span>
+                    </div>
+                    <time>{prettyDate(release.date, release.confidence)}</time>
+                  </a>
+                ))
+              ) : (
+                <div className="empty-state">
+                  <strong>No matching releases</strong>
+                  <span>Try another game title, genre, or platform.</span>
+                </div>
+              )}
+            </div>
+          </aside>
+        ) : null}
       </section>
     </main>
   );
