@@ -13,14 +13,19 @@ import {
   Swords,
   TimerReset
 } from "lucide-react";
-import { pcReleases, timelineEvents, type Confidence, type TimelineEvent } from "./data";
+import { timelineEvents, type Confidence, type Release, type TimelineEvent } from "./data";
+import releaseData from "./data/pc-releases.json";
 import "./styles.css";
+
+const pcReleases = releaseData.releases as Release[];
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",
   year: "numeric"
 });
+
+const releasesUpdatedAt = formatter.format(new Date(releaseData.updatedAt));
 
 const monthFormatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -162,6 +167,7 @@ function App() {
               </p>
               <h2>Upcoming PC games</h2>
             </div>
+            <span>Updated {releasesUpdatedAt}</span>
           </div>
 
           <div className="release-list">
