@@ -1,4 +1,4 @@
-name: Update release data
+name: Update tracked game data
 
 on:
   schedule:
@@ -41,22 +41,25 @@ jobs:
           IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
         run: npm run update:releases
 
+      - name: Update season calendar sources
+        run: npm run update:seasons
+
       - name: Build
         run: npm run build
 
-      - name: Commit release data
+      - name: Commit tracked game data
         id: changes
         run: |
-          if git diff --quiet -- src/data/pc-releases.json; then
-            echo "No release data changes."
+          if git diff --quiet -- src/data/pc-releases.json src/data/season-calendar.json; then
+            echo "No release or season data changes."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/pc-releases.json
-          git commit -m "Update PC release data"
+          git add src/data/pc-releases.json src/data/season-calendar.json
+          git commit -m "Update tracked game data"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
 

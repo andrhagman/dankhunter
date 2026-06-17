@@ -1,6 +1,6 @@
 # Dankhunter
 
-Dankhunter is a compact website for tracking ARPG seasons, expansions, and upcoming PC game releases.
+Dankhunter is a compact website for tracking game seasons, wipes, expansions, and upcoming PC game releases.
 
 ## Run locally
 
@@ -20,7 +20,7 @@ This repo is configured for GitHub Pages as a project site at `/dankhunter/`.
 
 ## Data
 
-ARPG season data lives in `src/data.ts`. PC release data lives in `src/data/pc-releases.json` and is generated from IGDB's structured `release_dates` API.
+Shared TypeScript data types live in `src/data.ts`. Season calendar data lives in `src/data/season-calendar.json`. PC release data lives in `src/data/pc-releases.json` and is generated from IGDB's structured `release_dates` API.
 
 - `confirmed`: a named date or live event from an official or tracker source.
 - `window`: a published release window with no exact date.
@@ -28,7 +28,7 @@ ARPG season data lives in `src/data.ts`. PC release data lives in `src/data/pc-r
 
 Date-sensitive entries should be reviewed before publishing.
 
-## Scheduled release updates
+## Scheduled data updates
 
 `.github/workflows/update-releases.yml` runs every night at `03:23 UTC` and can also be started manually from GitHub Actions.
 
@@ -42,9 +42,10 @@ Create them from a Twitch Developer application, since IGDB authentication uses 
 The workflow:
 
 1. Runs `npm run update:releases`.
-2. Writes `src/data/pc-releases.json`.
-3. Builds the site.
-4. Commits the JSON only when release data changed.
-5. Publishes the updated `dist` folder to GitHub Pages.
+2. Runs `npm run update:seasons`.
+3. Writes `src/data/pc-releases.json` and checks `src/data/season-calendar.json` sources.
+4. Builds the site.
+5. Commits the JSON only when tracked data changed.
+6. Publishes the updated `dist` folder to GitHub Pages.
 
 The schedule is intentionally once per day and offset from the top of the hour to stay well within normal GitHub Actions free-tier usage.

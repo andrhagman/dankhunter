@@ -13,11 +13,13 @@ import {
   Swords,
   TimerReset
 } from "lucide-react";
-import { timelineEvents, type Confidence, type Release, type TimelineEvent } from "./data";
+import { type Confidence, type Release, type TimelineEvent } from "./data";
 import releaseData from "./data/pc-releases.json";
+import seasonData from "./data/season-calendar.json";
 import "./styles.css";
 
 const pcReleases = releaseData.releases as Release[];
+const timelineEvents = seasonData.events as TimelineEvent[];
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -86,7 +88,7 @@ function App() {
           </div>
           <div>
             <p>Dankhunter</p>
-            <span>ARPG season and PC release tracker</span>
+            <span>Season, wipe, and PC release tracker</span>
           </div>
         </div>
 
@@ -108,7 +110,7 @@ function App() {
           </p>
           <h1>Track the next grind before the patch notes hit.</h1>
           <p>
-            A compact calendar for ARPG seasons, expansions, fresh ladders, and notable PC launches.
+            A compact calendar for seasons, wipes, expansions, ladders, and notable PC launches.
           </p>
         </div>
 
@@ -147,7 +149,7 @@ function App() {
               <p className="eyebrow">
                 <CalendarDays size={16} /> Season calendar
               </p>
-              <h2>ARPG timeline</h2>
+              <h2>Season calendar</h2>
             </div>
             <span>{filteredEvents.length} visible</span>
           </div>

@@ -1,0 +1,328 @@
+{
+  "updatedAt": "2026-06-17T12:27:03.277Z",
+  "sourceName": "Curated official and community trackers",
+  "sourceUrl": "https://github.com/andrhagman/dankhunter",
+  "events": [
+    {
+      "id": "last-epoch-season-4",
+      "game": "Last Epoch",
+      "title": "Season 4 - Shattered Omens",
+      "date": "2026-03-26T16:00:00Z",
+      "type": "Season",
+      "confidence": "confirmed",
+      "status": "Live",
+      "note": "Current Last Epoch season started March 26.",
+      "sourceName": "aRPG Timeline",
+      "sourceUrl": "https://www.arpg-timeline.com/game/last-epoch",
+      "accent": "#8bbdd9"
+    },
+    {
+      "id": "hero-siege-season-9",
+      "game": "Hero Siege",
+      "title": "Season 9 - Incarnation",
+      "date": "2026-04-03T13:00:00Z",
+      "type": "Season",
+      "confidence": "confirmed",
+      "status": "Live",
+      "note": "Season 9 added Incarnation, Ether Tree, Architect of Ruin, and PS5 release.",
+      "sourceName": "Steam News",
+      "sourceUrl": "https://store.steampowered.com/news/app/269210/view/528748782770193280",
+      "accent": "#72b35e"
+    },
+    {
+      "id": "pd2-season-13",
+      "game": "Project Diablo 2",
+      "title": "Season 13 - Betrayal",
+      "date": "2026-04-24T17:00:00Z",
+      "type": "Season",
+      "confidence": "confirmed",
+      "status": "Live",
+      "note": "Season 13 began April 24 at 10am PST.",
+      "sourceName": "Project Diablo 2",
+      "sourceUrl": "https://www.projectdiablo2.com/",
+      "accent": "#b95f3b"
+    },
+    {
+      "id": "diablo-iv-lord-of-hatred",
+      "game": "Diablo IV",
+      "title": "Lord of Hatred",
+      "date": "2026-04-28",
+      "type": "Expansion",
+      "confidence": "confirmed",
+      "status": "Live",
+      "note": "Expansion availability is listed on the official season page.",
+      "sourceName": "Blizzard",
+      "sourceUrl": "https://diablo4.blizzard.com/en-us/season",
+      "accent": "#c94b35"
+    },
+    {
+      "id": "poe2-return-ancients",
+      "game": "Path of Exile 2",
+      "title": "0.5.0 - Return of the Ancients",
+      "date": "2026-05-29T20:00:00Z",
+      "type": "Season",
+      "confidence": "confirmed",
+      "status": "Live",
+      "note": "Current league is live; next full release window is not announced.",
+      "sourceName": "aRPG Timeline",
+      "sourceUrl": "https://www.arpg-timeline.com/game/path-of-exile2",
+      "accent": "#d4a24c"
+    },
+    {
+      "id": "diablo-iv-divine-intervention",
+      "game": "Diablo IV",
+      "title": "Season of Divine Intervention",
+      "date": "2026-06-17",
+      "type": "Season",
+      "confidence": "confirmed",
+      "status": "Live",
+      "note": "Live season page highlights the Wardens of Light, Divine Gifts, monster combat updates, and item journey reworks.",
+      "sourceName": "Blizzard",
+      "sourceUrl": "https://diablo4.blizzard.com/en-us/season",
+      "accent": "#c94b35"
+    },
+    {
+      "id": "wow-midnight-season-2",
+      "game": "World of Warcraft Retail",
+      "title": "Midnight Patch 12.1 & Season 2",
+      "date": "2026-07-15",
+      "type": "Season",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "Blizzard roadmap places Season 2 in summer with a new zone, raid, dungeon, delves, and world boss.",
+      "sourceName": "World of Warcraft",
+      "sourceUrl": "https://worldofwarcraft.blizzard.com/en-us/news/24250385",
+      "accent": "#3d8be9"
+    },
+    {
+      "id": "wow-classic-tbc-phase-3",
+      "game": "WoW Classic Anniversary",
+      "title": "TBC Anniversary Phase 3",
+      "date": "2026-07-15",
+      "type": "Season",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "TBC Anniversary roadmap places Black Temple and Mount Hyjal in summer 2026.",
+      "sourceName": "Wowhead",
+      "sourceUrl": "https://www.wowhead.com/tbc/guide/the-burning-crusade-classic-anniversary-phase-release-roadmap",
+      "accent": "#66b47a"
+    },
+    {
+      "id": "poe-329",
+      "game": "Path of Exile",
+      "title": "3.29 League",
+      "date": "2026-07-24T20:00:00Z",
+      "type": "Season",
+      "confidence": "confirmed",
+      "status": "Upcoming",
+      "note": "Next Path of Exile league is tracked with a confirmed July 24 start.",
+      "sourceName": "aRPG Timeline",
+      "sourceUrl": "https://www.arpg-timeline.com/game/path-of-exile",
+      "accent": "#b8894f"
+    },
+    {
+      "id": "wow-mop-classic-phase-5",
+      "game": "WoW Mists Classic",
+      "title": "Siege of Orgrimmar / Timeless Isle",
+      "date": "2026-08-15",
+      "type": "Season",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "Blizzard recap says Siege of Orgrimmar and Timeless Isle continue later in 2026.",
+      "sourceName": "World of Warcraft",
+      "sourceUrl": "https://worldofwarcraft.blizzard.com/en-us/news/24250385",
+      "accent": "#54a89a"
+    },
+    {
+      "id": "hero-siege-next",
+      "game": "Hero Siege",
+      "title": "Next Season",
+      "date": "2026-09-01",
+      "type": "Season",
+      "confidence": "estimated",
+      "status": "Upcoming",
+      "note": "Community helper lists Season 9 end as TBD with an August/September estimate.",
+      "sourceName": "HS Helper",
+      "sourceUrl": "https://hero-siege-helper.vercel.app/seasons",
+      "accent": "#72b35e"
+    },
+    {
+      "id": "last-epoch-season-5",
+      "game": "Last Epoch",
+      "title": "Season 5",
+      "date": "2026-09-15",
+      "type": "Season",
+      "confidence": "estimated",
+      "status": "Upcoming",
+      "note": "Last Epoch roadmap says Season 5 follows later in 2026; exact date is not announced.",
+      "sourceName": "Last Epoch Roadmap",
+      "sourceUrl": "https://forum.lastepoch.com/t/last-epoch-s-season-4-and-beyond-expansion-paradox-classes-and-roadmap/80152",
+      "accent": "#8bbdd9"
+    },
+    {
+      "id": "wow-midnight-1215",
+      "game": "World of Warcraft Retail",
+      "title": "Midnight Patch 12.1.5",
+      "date": "2026-09-15",
+      "type": "Patch",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "Early autumn roadmap beat with Labyrinth, a new raid, and new content systems.",
+      "sourceName": "Wowhead",
+      "sourceUrl": "https://www.wowhead.com/news/world-of-warcraft-2026-midnight-roadmap-revealed-380135",
+      "accent": "#3d8be9"
+    },
+    {
+      "id": "tarkov-season-2",
+      "game": "Escape from Tarkov",
+      "title": "Season 2 / Next Wipe Window",
+      "date": "2026-10-01",
+      "type": "Season",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "Tarkov seasonal wipe timing is tracked as a Q4 2026 window until Battlestate confirms a date.",
+      "sourceName": "Escape from Tarkov News",
+      "sourceUrl": "https://www.escapefromtarkov.com/news",
+      "accent": "#9a8c65"
+    },
+    {
+      "id": "wow-classic-tbc-phase-35",
+      "game": "WoW Classic Anniversary",
+      "title": "TBC Anniversary Phase 3.5 - Zul'Aman",
+      "date": "2026-10-01",
+      "type": "Season",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "TBC Anniversary roadmap places Zul'Aman and Arena Season 4 in autumn 2026.",
+      "sourceName": "TBC Anniversary Roadmap",
+      "sourceUrl": "https://boosting-ground.com/wow-classic/news/tbc-anniversary-2026-roadmap",
+      "accent": "#66b47a"
+    },
+    {
+      "id": "pd2-season-14",
+      "game": "Project Diablo 2",
+      "title": "Season 14",
+      "date": "2026-10-24",
+      "type": "Season",
+      "confidence": "estimated",
+      "status": "Upcoming",
+      "note": "Estimated from the usual roughly six-month Project Diablo 2 season cadence; no official date yet.",
+      "sourceName": "Project Diablo 2",
+      "sourceUrl": "https://www.projectdiablo2.com/",
+      "accent": "#b95f3b"
+    },
+    {
+      "id": "wow-classic-era-hardcore",
+      "game": "WoW Classic Era / Hardcore",
+      "title": "Next Era / Hardcore Update",
+      "date": "2026-11-01",
+      "type": "Patch",
+      "confidence": "estimated",
+      "status": "Upcoming",
+      "note": "No specific 2026 Classic Era or Hardcore date is announced; tracked as a watch item until Blizzard publishes a roadmap.",
+      "sourceName": "World of Warcraft News",
+      "sourceUrl": "https://worldofwarcraft.blizzard.com/en-us/news",
+      "accent": "#9db2c8"
+    },
+    {
+      "id": "poe2-full-release",
+      "game": "Path of Exile 2",
+      "title": "1.0.0 - Full Release",
+      "date": "2026-11-15",
+      "type": "Launch",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "Tracked as a November / December window until GGG announces a date.",
+      "sourceName": "aRPG Timeline",
+      "sourceUrl": "https://www.arpg-timeline.com/game/path-of-exile2",
+      "accent": "#d4a24c"
+    },
+    {
+      "id": "wow-midnight-1217",
+      "game": "World of Warcraft Retail",
+      "title": "Midnight Patch 12.1.7",
+      "date": "2026-11-15",
+      "type": "Patch",
+      "confidence": "window",
+      "status": "Upcoming",
+      "note": "Late autumn roadmap beat; exact date is not announced.",
+      "sourceName": "Wowhead",
+      "sourceUrl": "https://www.wowhead.com/news/world-of-warcraft-2026-midnight-roadmap-revealed-380135",
+      "accent": "#3d8be9"
+    }
+  ],
+  "sources": [
+    "https://www.pathofexile.com/news/rss",
+    "https://www.pathofexile.com/",
+    "https://forum.lastepoch.com/t/last-epoch-s-season-4-and-beyond-expansion-paradox-classes-and-roadmap/80152",
+    "https://diablo4.blizzard.com/en-us/season",
+    "https://www.projectdiablo2.com/",
+    "https://steamcommunity.com/games/269210/rss",
+    "https://www.escapefromtarkov.com/news",
+    "https://worldofwarcraft.blizzard.com/en-us/news/24250385",
+    "https://www.wowhead.com/news/world-of-warcraft-2026-midnight-roadmap-revealed-380135",
+    "https://www.wowhead.com/tbc/guide/the-burning-crusade-classic-anniversary-phase-release-roadmap"
+  ],
+  "sourceHealth": {
+    "https://www.pathofexile.com/news/rss": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:00.789Z"
+    },
+    "https://www.pathofexile.com/": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:01.099Z"
+    },
+    "https://forum.lastepoch.com/t/last-epoch-s-season-4-and-beyond-expansion-paradox-classes-and-roadmap/80152": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:01.911Z"
+    },
+    "https://diablo4.blizzard.com/en-us/season": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:02.134Z"
+    },
+    "https://www.projectdiablo2.com/": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:02.352Z"
+    },
+    "https://steamcommunity.com/games/269210/rss": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:02.647Z"
+    },
+    "https://www.escapefromtarkov.com/news": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:02.764Z"
+    },
+    "https://worldofwarcraft.blizzard.com/en-us/news/24250385": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:03.172Z"
+    },
+    "https://www.wowhead.com/news/world-of-warcraft-2026-midnight-roadmap-revealed-380135": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:03.218Z"
+    },
+    "https://www.wowhead.com/tbc/guide/the-burning-crusade-classic-anniversary-phase-release-roadmap": {
+      "ok": true,
+      "status": 200,
+      "statusText": "OK",
+      "checkedAt": "2026-06-17T12:27:03.277Z"
+    }
+  }
+}
