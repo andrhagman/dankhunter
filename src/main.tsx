@@ -156,27 +156,37 @@ function App() {
             <span>Season, wipe, and PC release tracker</span>
           </div>
         </div>
-
-        <div className="search">
-          <Search size={18} />
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search games, seasons, releases"
-            aria-label="Search"
-          />
-        </div>
       </section>
 
       <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">
-            <Flame size={16} /> Live watchlist
-          </p>
-          <h1>Track the next grind before the patch notes hit.</h1>
-          <p>
-            Season calendar first, with upcoming PC releases one switch away.
-          </p>
+        <div className="hero-primary">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <Flame size={16} /> Dankhunter
+            </p>
+            <h1>{mode === "seasons" ? "Season calendar" : "Game releases"}</h1>
+          </div>
+
+          <section className="mode-switch" aria-label="Tracker mode">
+            <button
+              aria-pressed={mode === "seasons"}
+              className={mode === "seasons" ? "active" : ""}
+              onClick={() => setMode("seasons")}
+              type="button"
+            >
+              <CalendarDays size={17} />
+              Season calendar
+            </button>
+            <button
+              aria-pressed={mode === "releases"}
+              className={mode === "releases" ? "active" : ""}
+              onClick={() => setMode("releases")}
+              type="button"
+            >
+              <Gamepad2 size={17} />
+              Game releases
+            </button>
+          </section>
         </div>
 
         <div className="stats-grid" aria-label="Tracker stats">
@@ -190,46 +200,6 @@ function App() {
         </div>
       </section>
 
-      <section className="mode-switch" aria-label="Tracker mode">
-        <button
-          aria-pressed={mode === "seasons"}
-          className={mode === "seasons" ? "active" : ""}
-          onClick={() => setMode("seasons")}
-          type="button"
-        >
-          <CalendarDays size={17} />
-          Season calendar
-        </button>
-        <button
-          aria-pressed={mode === "releases"}
-          className={mode === "releases" ? "active" : ""}
-          onClick={() => setMode("releases")}
-          type="button"
-        >
-          <Gamepad2 size={17} />
-          Game releases
-        </button>
-      </section>
-
-      {mode === "seasons" ? (
-        <section className="controls" aria-label="Season calendar filters">
-          <div className="control-label">
-            <Filter size={17} />
-            Filter
-          </div>
-          {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
-            <button
-              className={kind === filter ? "active" : ""}
-              key={filter}
-              onClick={() => setKind(filter)}
-              type="button"
-            >
-              {filter}
-            </button>
-          ))}
-        </section>
-      ) : null}
-
       <section className="layout">
         {mode === "seasons" ? (
           <div className="panel timeline-panel">
@@ -242,6 +212,11 @@ function App() {
               </div>
               <div className="calendar-actions">
                 <span>{filteredEvents.length} visible</span>
+                <SearchField
+                  onChange={setQuery}
+                  placeholder="Search seasons, games, expansions"
+                  value={query}
+                />
                 <button
                   aria-expanded={isPreferencesOpen}
                   aria-label="Season calendar preferences"
@@ -254,6 +229,23 @@ function App() {
                 </button>
               </div>
             </div>
+
+            <section className="controls" aria-label="Season calendar filters">
+              <div className="control-label">
+                <Filter size={17} />
+                Filter
+              </div>
+              {["All", "Upcoming", "Live", "Season", "Expansion", "Patch", "Launch"].map((filter) => (
+                <button
+                  className={kind === filter ? "active" : ""}
+                  key={filter}
+                  onClick={() => setKind(filter)}
+                  type="button"
+                >
+                  {filter}
+                </button>
+              ))}
+            </section>
 
             {isPreferencesOpen ? (
               <div className="preferences-popover" role="dialog" aria-label="Season calendar preferences">
@@ -319,7 +311,14 @@ function App() {
                 </p>
                 <h2>Game releases</h2>
               </div>
-              <span>Updated {releasesUpdatedAt}</span>
+              <div className="release-actions">
+                <span>Updated {releasesUpdatedAt}</span>
+                <SearchField
+                  onChange={setQuery}
+                  placeholder="Search game releases"
+                  value={query}
+                />
+              </div>
             </div>
 
             <div className="release-list">
@@ -370,6 +369,28 @@ function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; 
         <strong>{value}</strong>
         <p>{label}</p>
       </div>
+    </div>
+  );
+}
+
+function SearchField({
+  onChange,
+  placeholder,
+  value
+}: {
+  onChange: (value: string) => void;
+  placeholder: string;
+  value: string;
+}) {
+  return (
+    <div className="search">
+      <Search size={18} />
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        aria-label="Search"
+      />
     </div>
   );
 }
