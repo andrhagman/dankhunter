@@ -41,9 +41,9 @@ const monthFormatter = new Intl.DateTimeFormat("en", {
 type ViewMode = "seasons" | "releases";
 
 const panelMotion: Variants = {
-  hidden: { opacity: 0, y: 10, filter: "blur(3px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-  exit: { opacity: 0, y: -8, filter: "blur(3px)" }
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 }
 };
 
 const itemMotion: Variants = {
@@ -53,8 +53,9 @@ const itemMotion: Variants = {
 };
 
 const smoothTransition: Transition = { duration: 0.22, ease: "easeOut" };
-const listFadeTransition: Transition = { duration: 0.2, ease: "easeOut" };
+const listFadeTransition: Transition = { duration: 0.16, ease: "easeOut" };
 const layoutTransition: Transition = { type: "spring", stiffness: 520, damping: 42, mass: 0.7 };
+const shellTransition: Transition = { duration: 0.46, ease: [0.22, 1, 0.36, 1] };
 
 type ListPhase = "idle" | "out" | "in";
 
@@ -444,6 +445,7 @@ function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduc
   const [displayedEvents, setDisplayedEvents] = React.useState(events);
   const [shellHeight, setShellHeight] = React.useState<number | "auto">("auto");
   const [phase, setPhase] = React.useState<ListPhase>("idle");
+  const [sequence, setSequence] = React.useState(0);
   const contentRef = React.useRef<HTMLDivElement>(null);
   const timers = React.useRef<number[]>([]);
   const targetSignature = eventSignature(events);
@@ -451,9 +453,8 @@ function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduc
   const timelineAnimate = reduceMotion
     ? undefined
     : {
-        opacity: phase === "out" ? 0.16 : 1,
-        y: phase === "out" ? -6 : 0,
-        filter: phase === "out" ? "blur(2px)" : "blur(0px)"
+        opacity: phase === "out" ? 0.24 : 1,
+        y: phase === "out" ? -8 : 0
       };
 
   React.useEffect(() => {
@@ -471,6 +472,7 @@ function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduc
       setDisplayedEvents(events);
       setShellHeight("auto");
       setPhase("idle");
+      setSequence((current) => current + 1);
       return;
     }
 
@@ -482,19 +484,22 @@ function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduc
 
     const swapTimer = window.setTimeout(() => {
       setDisplayedEvents(events);
+      setSequence((current) => current + 1);
       setPhase("in");
 
       requestAnimationFrame(() => {
-        const nextHeight = contentRef.current?.offsetHeight ?? previousHeight;
-        setShellHeight(nextHeight);
+        requestAnimationFrame(() => {
+          const nextHeight = contentRef.current?.offsetHeight ?? previousHeight;
+          setShellHeight(nextHeight);
 
-        const releaseTimer = window.setTimeout(() => {
-          setShellHeight("auto");
-          setPhase("idle");
-        }, 360);
-        timers.current.push(releaseTimer);
+          const releaseTimer = window.setTimeout(() => {
+            setShellHeight("auto");
+            setPhase("idle");
+          }, 780);
+          timers.current.push(releaseTimer);
+        });
       });
-    }, 180);
+    }, 130);
 
     timers.current.push(swapTimer);
   }, [displayedSignature, events, reduceMotion, targetSignature]);
@@ -503,7 +508,8 @@ function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduc
     <motion.div
       animate={{ height: shellHeight }}
       className="timeline-shell"
-      transition={layoutTransition}
+      data-phase={phase}
+      transition={shellTransition}
     >
       <motion.div
         animate={timelineAnimate}
@@ -512,9 +518,23 @@ function CalendarList({ events, reduceMotion }: { events: TimelineEvent[]; reduc
         transition={listFadeTransition}
       >
         {displayedEvents.length > 0 ? (
-          displayedEvents.map((event) => <TimelineCard key={event.id} event={event} />)
+          displayedEvents.map((event, index) => (
+            <TimelineCard
+              animationOrder={index}
+              key={`${sequence}-${event.id}`}
+              event={event}
+              reduceMotion={reduceMotion}
+            />
+          ))
         ) : (
-          <motion.div className="empty-state" layout transition={layoutTransition}>
+          <motion.div
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            className="empty-state"
+            initial={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+            key={`empty-${sequence}`}
+            layout
+            transition={smoothTransition}
+          >
             <strong>No matching seasons</strong>
             <span>Adjust your calendar preferences, search, or filter.</span>
           </motion.div>
@@ -596,19 +616,28 @@ function SearchField({
 }
 
 function TimelineCard({
-  event
+  animationOrder,
+  event,
+  reduceMotion
 }: {
+  animationOrder: number;
   event: TimelineEvent;
+  reduceMotion: boolean;
 }) {
   const remaining = daysUntil(event.date);
   const isPast = remaining < 0;
+  const entryDelay = `${Math.min(animationOrder * 32, 420)}ms`;
 
   return (
     <motion.article
       className="timeline-card"
       layout
-      style={{ "--accent": event.accent } as React.CSSProperties}
-      transition={layoutTransition}
+      style={
+        {
+          "--accent": event.accent,
+          "--entry-delay": reduceMotion ? "0ms" : entryDelay
+        } as React.CSSProperties
+      }
     >
       <div className="date-block">
         <time>{prettyDate(event.date, event.confidence)}</time>
